@@ -32,7 +32,7 @@ com.example.InterfaceA.prototype.interfaceMethod = rock.abstract_;
 /* com.example.ClassA */
 com.example.ClassA = function () {
     // rock.js assumes all properties are protected
-    this.privatePropertyA = 'propertyA';
+    this.protectedPropertyA = 'propertyA';
 };
 
 // 'com.example.ClassA' implements 'com.example.InterfaceA'.
@@ -43,21 +43,21 @@ com.example.ClassA.prototype.interfaceMethod = function () {
 };
 
 com.example.ClassA.prototype.printProperty = function () {
-    rock.console.log(this.privatePropertyA);
+    rock.console.log(this.protectedPropertyA);
 };
 
 /* com.example.ClassB */
 com.example.ClassB = function () {
     // Call super constructor (you can pass params if needed)
     rock.super_(this);
-    this.privatePropertyB = 'propertyB';
+    this.protectedPropertyB = 'propertyB';
 };
 
 // 'com.example.ClassB' extends 'com.example.ClassA'. A class only can extend one (and only one) class.
 rock.extends_(com.example.ClassB, com.example.ClassA);
 
 com.example.ClassB.prototype.printProperty = function () {
-    rock.console.log(this.privatePropertyB);
+    rock.console.log(this.protectedPropertyB);
 };
 
 com.example.ClassB.prototype.interfaceMethod = function () {
