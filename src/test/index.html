@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Rock test page</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <!-- <script type="text/javascript" src="js/webgl-debug.js" charset="UTF-8"></script> -->
+    <script type="text/javascript" src="../main/js/load-rock.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="js/load-app.js" charset="UTF-8"></script>
+    <script type="text/javascript">
+        loadRock('../main/js/rock/');
+        loadApp('js/app/');
+    </script>
+    <script type="text/javascript" src="init.js" charset="UTF-8"></script>
+</head>
+<body onload="init('divTestApp', 'resources/');">
+
+<br/>
+
+<div class="center">
+    <div id="divLinkWebGLVersion" class="hidden"><a href="index.html?contextType=CONTEXT_WEBGL">WebGL Version</a></div>
+    <div id="divLinkCanvasVersion" class="hidden"><a href="index.html">Canvas 2D Version</a></div>
+    <br/>
+</div>
+
+<div class="center">
+    <div id="divTestApp" class="fit"></div>
+</div>
+
+</body>
+</html>
