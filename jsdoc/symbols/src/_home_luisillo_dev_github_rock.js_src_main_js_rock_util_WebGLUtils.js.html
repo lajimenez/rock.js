@@ -1,0 +1,162 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="NAME">rock.namespace</span><span class="PUNC">(</span><span class="STRN">'rock.util'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="COMM">/**
+<span class='line'>  4</span>  * WebGL utils class
+<span class='line'>  5</span>  *
+<span class='line'>  6</span>  * @constructor
+<span class='line'>  7</span>  * @author Luis Alberto Jiménez
+<span class='line'>  8</span>  */</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="NAME">rock.util.WebGlUtils</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 10</span>     </span><span class="COMM">/**
+<span class='line'> 11</span>      * Create and compile a shader
+<span class='line'> 12</span>      *
+<span class='line'> 13</span>      * @param gl
+<span class='line'> 14</span>      *            the WebGL context
+<span class='line'> 15</span>      * @param type
+<span class='line'> 16</span>      *            the type of the shader {gl.VERTEX_SHADER, gl.FRAGMENT_SHADER}
+<span class='line'> 17</span>      * @param src
+<span class='line'> 18</span>      *            the shader source
+<span class='line'> 19</span>      * @returns the shader
+<span class='line'> 20</span>      */</span><span class="WHIT">
+<span class='line'> 21</span>     </span><span class="NAME">createAndCompileShader</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">src</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 22</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">shader</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.createShader</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 23</span>         </span><span class="NAME">gl.shaderSource</span><span class="PUNC">(</span><span class="NAME">shader</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">src</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span>         </span><span class="NAME">gl.compileShader</span><span class="PUNC">(</span><span class="NAME">shader</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">gl.getShaderParameter</span><span class="PUNC">(</span><span class="NAME">shader</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.COMPILE_STATUS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">gl.isContextLost</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 26</span>             </span><span class="COMM">// var shaderInfoLog = gl.getShaderInfoLog(shader);</span><span class="WHIT">
+<span class='line'> 27</span>             </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.error.RockError</span><span class="PUNC">(</span><span class="NAME">rock.resource.rockResourceManager.getString</span><span class="PUNC">(</span><span class="STRN">'SHADER_NOT_COMPILED'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span>         </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 29</span>         </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">shader</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span>     </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 31</span> 
+<span class='line'> 32</span>     </span><span class="COMM">/**
+<span class='line'> 33</span>      * Creates a new program
+<span class='line'> 34</span>      *
+<span class='line'> 35</span>      * @param gl
+<span class='line'> 36</span>      *            the webgl context
+<span class='line'> 37</span>      * @param vertexShader
+<span class='line'> 38</span>      *            the vertex shader to use in the program
+<span class='line'> 39</span>      * @param fragmentShader
+<span class='line'> 40</span>      *            the fragment shader to use in the program
+<span class='line'> 41</span>      * @returns the program
+<span class='line'> 42</span>      */</span><span class="WHIT">
+<span class='line'> 43</span>     </span><span class="NAME">createProgram</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">vertexShader</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fragmentShader</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 44</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">program</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.createProgram</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span>         </span><span class="NAME">gl.attachShader</span><span class="PUNC">(</span><span class="NAME">program</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">vertexShader</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span>         </span><span class="NAME">gl.attachShader</span><span class="PUNC">(</span><span class="NAME">program</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fragmentShader</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 47</span>         </span><span class="NAME">this.linkProgram</span><span class="PUNC">(</span><span class="NAME">gl</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">program</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span>         </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">program</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span>     </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 50</span> 
+<span class='line'> 51</span>     </span><span class="COMM">/**
+<span class='line'> 52</span>      * Links a program
+<span class='line'> 53</span>      *
+<span class='line'> 54</span>      * @param gl
+<span class='line'> 55</span>      *            the webgl context
+<span class='line'> 56</span>      * @param program
+<span class='line'> 57</span>      *            the program to link
+<span class='line'> 58</span>      */</span><span class="WHIT">
+<span class='line'> 59</span>     </span><span class="NAME">linkProgram</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">program</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 60</span>         </span><span class="NAME">gl.linkProgram</span><span class="PUNC">(</span><span class="NAME">program</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 61</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">gl.getProgramParameter</span><span class="PUNC">(</span><span class="NAME">program</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.LINK_STATUS</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">gl.isContextLost</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 62</span>             </span><span class="COMM">// gl.getProgramInfoLog(program);</span><span class="WHIT">
+<span class='line'> 63</span>             </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.error.RockError</span><span class="PUNC">(</span><span class="NAME">rock.resource.rockResourceManager.getString</span><span class="PUNC">(</span><span class="STRN">'PROGRAM_NOT_LINKED'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span>         </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 65</span>     </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 66</span> 
+<span class='line'> 67</span>     </span><span class="COMM">/**
+<span class='line'> 68</span>      * Populate an attribute in a GLSL program. The buffer used for populating
+<span class='line'> 69</span>      * attribute will be bound.
+<span class='line'> 70</span>      *
+<span class='line'> 71</span>      * @param gl
+<span class='line'> 72</span>      *            the WebGL context
+<span class='line'> 73</span>      * @param program
+<span class='line'> 74</span>      *            the program that have the attribute
+<span class='line'> 75</span>      * @param attribute
+<span class='line'> 76</span>      *            attribute name
+<span class='line'> 77</span>      * @param vertices
+<span class='line'> 78</span>      *            array of vertices
+<span class='line'> 79</span>      * @param dimensions
+<span class='line'> 80</span>      *            dimensions of the vertices
+<span class='line'> 81</span>      * @returns {WebGLBuffer} the buffer used for populate attribute
+<span class='line'> 82</span>      */</span><span class="WHIT">
+<span class='line'> 83</span>     </span><span class="NAME">populateArrayBufferAttribute</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">program</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">attribute</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">vertices</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">dimensions</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 84</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">buffer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.createBuffer</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span>         </span><span class="NAME">gl.bindBuffer</span><span class="PUNC">(</span><span class="NAME">gl.ARRAY_BUFFER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">buffer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 86</span>         </span><span class="NAME">gl.bufferData</span><span class="PUNC">(</span><span class="NAME">gl.ARRAY_BUFFER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Float32Array</span><span class="PUNC">(</span><span class="NAME">vertices</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.STATIC_DRAW</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span> 
+<span class='line'> 88</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">attribLocation</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getAttribLocation</span><span class="PUNC">(</span><span class="NAME">program</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">attribute</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span>         </span><span class="NAME">gl.enableVertexAttribArray</span><span class="PUNC">(</span><span class="NAME">attribLocation</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span>         </span><span class="NAME">gl.vertexAttribPointer</span><span class="PUNC">(</span><span class="NAME">attribLocation</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">dimensions</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.FLOAT</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.FALSE</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span> 
+<span class='line'> 92</span>         </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">buffer</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span>     </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 94</span> 
+<span class='line'> 95</span>     </span><span class="COMM">/**
+<span class='line'> 96</span>      * Populate a indexes buffer used to draw elements. The buffer created will
+<span class='line'> 97</span>      * be bound
+<span class='line'> 98</span>      *
+<span class='line'> 99</span>      * @param gl
+<span class='line'>100</span>      *            the WebGL context
+<span class='line'>101</span>      * @param indexes
+<span class='line'>102</span>      *            array with indexes
+<span class='line'>103</span>      *
+<span class='line'>104</span>      * @returns {WebGLBuffer} the buffer created to draw
+<span class='line'>105</span>      */</span><span class="WHIT">
+<span class='line'>106</span>     </span><span class="NAME">populateElementArrayBuffer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">indexes</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>107</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">buffer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.createBuffer</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span>         </span><span class="NAME">gl.bindBuffer</span><span class="PUNC">(</span><span class="NAME">gl.ELEMENT_ARRAY_BUFFER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">buffer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span>         </span><span class="NAME">gl.bufferData</span><span class="PUNC">(</span><span class="NAME">gl.ELEMENT_ARRAY_BUFFER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Uint16Array</span><span class="PUNC">(</span><span class="NAME">indexes</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.STATIC_DRAW</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>110</span>         </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">buffer</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span>     </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>112</span> 
+<span class='line'>113</span>     </span><span class="COMM">/**
+<span class='line'>114</span>      * Create and populate a texture
+<span class='line'>115</span>      *
+<span class='line'>116</span>      * @param gl
+<span class='line'>117</span>      *            the WebGL context
+<span class='line'>118</span>      * @param {rock.graphics.Image} image
+<span class='line'>119</span>      *            the image used for the texture
+<span class='line'>120</span>      *
+<span class='line'>121</span>      * @returns {WebGLTexture} the texture created
+<span class='line'>122</span>      */</span><span class="WHIT">
+<span class='line'>123</span>     </span><span class="NAME">populateTexture</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">image</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>124</span>         </span><span class="COMM">// Create a texture.</span><span class="WHIT">
+<span class='line'>125</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">texture</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.createTexture</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>126</span>         </span><span class="NAME">gl.bindTexture</span><span class="PUNC">(</span><span class="NAME">gl.TEXTURE_2D</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">texture</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>127</span>         </span><span class="COMM">// Configure how to draw texture</span><span class="WHIT">
+<span class='line'>128</span>         </span><span class="NAME">gl.texParameteri</span><span class="PUNC">(</span><span class="NAME">gl.TEXTURE_2D</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.TEXTURE_WRAP_S</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.CLAMP_TO_EDGE</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>129</span>         </span><span class="NAME">gl.texParameteri</span><span class="PUNC">(</span><span class="NAME">gl.TEXTURE_2D</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.TEXTURE_WRAP_T</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.CLAMP_TO_EDGE</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span>         </span><span class="NAME">gl.texParameteri</span><span class="PUNC">(</span><span class="NAME">gl.TEXTURE_2D</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.TEXTURE_MIN_FILTER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.NEAREST</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>131</span>         </span><span class="NAME">gl.texParameteri</span><span class="PUNC">(</span><span class="NAME">gl.TEXTURE_2D</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.TEXTURE_MAG_FILTER</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.NEAREST</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>132</span> 
+<span class='line'>133</span>         </span><span class="COMM">// Upload the image into the texture.</span><span class="WHIT">
+<span class='line'>134</span>         </span><span class="NAME">gl.texImage2D</span><span class="PUNC">(</span><span class="NAME">gl.TEXTURE_2D</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.RGBA</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.RGBA</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.UNSIGNED_BYTE</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>135</span>             </span><span class="NAME">image.getHTMLImage</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>136</span>         </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">texture</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>137</span>     </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>138</span> 
+<span class='line'>139</span>     </span><span class="COMM">/**
+<span class='line'>140</span>      * Disable all vertex attribute in a program
+<span class='line'>141</span>      *
+<span class='line'>142</span>      * @param gl
+<span class='line'>143</span>      *            the WebGL context
+<span class='line'>144</span>      * @param program
+<span class='line'>145</span>      *            the program to disable vertext attribute
+<span class='line'>146</span>      */</span><span class="WHIT">
+<span class='line'>147</span>     </span><span class="NAME">disableAllVertexAttribArray</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">gl</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">program</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>148</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">currentAttributes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getProgramParameter</span><span class="PUNC">(</span><span class="NAME">program</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.ACTIVE_ATTRIBUTES</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>149</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>150</span>         </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">currentAttributes</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>151</span>             </span><span class="NAME">gl.disableVertexAttribArray</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span>         </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>153</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span> </span></pre></body></html>

@@ -1,0 +1,606 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="NAME">rock.namespace</span><span class="PUNC">(</span><span class="STRN">'rock.graphics.engine.webgl'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="COMM">/**
+<span class='line'>  4</span>  * Render engine to use with canvas and WebGL
+<span class='line'>  5</span>  * http://www.khronos.org/registry/webgl/specs/latest/
+<span class='line'>  6</span>  *
+<span class='line'>  7</span>  * @param {rock.graphics.engine.webgl.WebGLContext} context
+<span class='line'>  8</span>  *            the context
+<span class='line'>  9</span>  *
+<span class='line'> 10</span>  * @constructor
+<span class='line'> 11</span>  * @extends rock.graphics.engine.ContextGraphicsEngine
+<span class='line'> 12</span>  *
+<span class='line'> 13</span>  * @author Luis Alberto Jiménez
+<span class='line'> 14</span>  */</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="NAME">rock.graphics.engine.webgl.WebGLGraphicsEngine</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">context</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 16</span>     </span><span class="NAME">rock.super_</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 17</span> 
+<span class='line'> 18</span>     </span><span class="NAME">this.state</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 19</span>         </span><span class="NAME">saved</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="WHIT">
+<span class='line'> 20</span>     </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 21</span> 
+<span class='line'> 22</span>     </span><span class="NAME">this.CIRCUMFERENCE_POINTS</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">50</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 23</span> 
+<span class='line'> 24</span>     </span><span class="NAME">this.polygonRenderer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span>     </span><span class="NAME">this.imageRenderer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 26</span>     </span><span class="NAME">this.floatArrayRectangle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Float32Array</span><span class="PUNC">(</span><span class="NUMB">12</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 27</span>     </span><span class="NAME">this.floatArrayTextureCoordiantes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Float32Array</span><span class="PUNC">(</span><span class="NUMB">12</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span>     </span><span class="NAME">this.floatArrayCircumference</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Float32Array</span><span class="PUNC">(</span><span class="NUMB">3</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">this.CIRCUMFERENCE_POINTS</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 29</span>     </span><span class="NAME">this.circumferencePerimeter</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Float32Array</span><span class="PUNC">(</span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">this.CIRCUMFERENCE_POINTS</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span>     </span><span class="NAME">this.polygonRenderable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.graphics.engine.renderer.PolygonRenderable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 31</span>     </span><span class="NAME">this.imageRenderable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.graphics.engine.renderer.ImageRenderable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 32</span> 
+<span class='line'> 33</span>     </span><span class="NAME">this.init</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 34</span>     </span><span class="NAME">this.computePerimeterPoints</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 35</span> 
+<span class='line'> 36</span>     </span><span class="COMM">// We use a canvas2D to support operations like drawing text. We init at minimum value so</span><span class="WHIT">
+<span class='line'> 37</span>     </span><span class="COMM">// it will resize when needed</span><span class="WHIT">
+<span class='line'> 38</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">canvas2DCanvas</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rock.util.DOMUtils.createCanvas</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">canvas2DContext</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">canvas2DCanvas.getContext</span><span class="PUNC">(</span><span class="NAME">rock.constants.CANVAS_CONTEXT_2D</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">canvas2DGraphicsEngineContext</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.graphics.engine.canvas2d.Canvas2DContext</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">canvas2DContext</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span>     </span><span class="NAME">this.canvasGraphicsEngine</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.graphics.engine.canvas2d.Canvas2DGraphicsEngine</span><span class="PUNC">(</span><span class="NAME">canvas2DGraphicsEngineContext</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> 
+<span class='line'> 43</span>     </span><span class="NAME">this.transparent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rock.graphics.Color.TRANSPARENT</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span> 
+<span class='line'> 46</span> </span><span class="NAME">rock.extends_</span><span class="PUNC">(</span><span class="NAME">rock.graphics.engine.webgl.WebGLGraphicsEngine</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rock.graphics.engine.ContextGraphicsEngine</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 47</span> 
+<span class='line'> 48</span> </span><span class="COMM">/**
+<span class='line'> 49</span>  * @see rock.graphics.engine.IGraphicsEngine#init
+<span class='line'> 50</span>  * @override
+<span class='line'> 51</span>  */</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="NAME">rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.init</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 53</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">context</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.context</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span>     </span><span class="NAME">this.polygonRenderer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.graphics.engine.renderer.webgl.PolygonRenderer</span><span class="PUNC">(</span><span class="NAME">context</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span>     </span><span class="NAME">this.imageRenderer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.graphics.engine.renderer.webgl.ImageRenderer</span><span class="PUNC">(</span><span class="NAME">context</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> 
+<span class='line'> 58</span> </span><span class="COMM">/**
+<span class='line'> 59</span>  * We need some WebGL conditions to do engine work properly
+<span class='line'> 60</span>  *
+<span class='line'> 61</span>  * @param {Boolean} [premultipliedAlpha]
+<span class='line'> 62</span>  *      if the color used for drawing has premultiplied alpha
+<span class='line'> 63</span>  *
+<span class='line'> 64</span>  * @private
+<span class='line'> 65</span>  */</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="NAME">rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.prepareWebGLEngine</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">premultipliedAlpha</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 67</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">gl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.context.getHTMLContext</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span>     </span><span class="NAME">gl.enable</span><span class="PUNC">(</span><span class="NAME">gl.CULL_FACE</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span>     </span><span class="NAME">gl.frontFace</span><span class="PUNC">(</span><span class="NAME">gl.CCW</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span>     </span><span class="NAME">gl.cullFace</span><span class="PUNC">(</span><span class="NAME">gl.BACK</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span>     </span><span class="COMM">// Color mask set to write all colors</span><span class="WHIT">
+<span class='line'> 72</span>     </span><span class="NAME">gl.colorMask</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 73</span>     </span><span class="COMM">// Last draw will be visible</span><span class="WHIT">
+<span class='line'> 74</span>     </span><span class="NAME">gl.disable</span><span class="PUNC">(</span><span class="NAME">gl.DEPTH_TEST</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 75</span>     </span><span class="COMM">// We want blending</span><span class="WHIT">
+<span class='line'> 76</span>     </span><span class="NAME">gl.enable</span><span class="PUNC">(</span><span class="NAME">gl.BLEND</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span>     </span><span class="NAME">gl.blendEquation</span><span class="PUNC">(</span><span class="NAME">gl.FUNC_ADD</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">premultipliedAlpha</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 79</span>         </span><span class="NAME">gl.blendFuncSeparate</span><span class="PUNC">(</span><span class="NAME">gl.ONE</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.ONE_MINUS_SRC_ALPHA</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.ONE</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.ONE</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 81</span>         </span><span class="NAME">gl.blendFuncSeparate</span><span class="PUNC">(</span><span class="NAME">gl.SRC_ALPHA</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.ONE_MINUS_SRC_ALPHA</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.ONE</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">gl.ONE</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 82</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 84</span> 
+<span class='line'> 85</span> </span><span class="COMM">/**
+<span class='line'> 86</span>  * Save the current state of the WebGL.
+<span class='line'> 87</span>  * You could call this function before doing a graphics API call and so you will be able to restore the WebGL state
+<span class='line'> 88</span>  */</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="NAME">rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.saveState</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 90</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">gl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.context.getHTMLContext</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">state</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.state</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 92</span>     </span><span class="NAME">state.colorMask</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getParameter</span><span class="PUNC">(</span><span class="NAME">gl.COLOR_WRITEMASK</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span>     </span><span class="NAME">state.cullFaceEnabled</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getParameter</span><span class="PUNC">(</span><span class="NAME">gl.CULL_FACE</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 94</span>     </span><span class="NAME">state.frontFace</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getParameter</span><span class="PUNC">(</span><span class="NAME">gl.FRONT_FACE</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 95</span>     </span><span class="NAME">state.cullFace</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getParameter</span><span class="PUNC">(</span><span class="NAME">gl.CULL_FACE_MODE</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span>     </span><span class="NAME">state.depthTestEnabled</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getParameter</span><span class="PUNC">(</span><span class="NAME">gl.DEPTH_TEST</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span>     </span><span class="NAME">state.blendEnabled</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getParameter</span><span class="PUNC">(</span><span class="NAME">gl.BLEND</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span>     </span><span class="NAME">state.blendEquationRGB</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getParameter</span><span class="PUNC">(</span><span class="NAME">gl.BLEND_EQUATION_RGB</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 99</span>     </span><span class="NAME">state.blendEquationAlpha</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getParameter</span><span class="PUNC">(</span><span class="NAME">gl.BLEND_EQUATION_ALPHA</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span>     </span><span class="NAME">state.blendFuncSrcRGB</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getParameter</span><span class="PUNC">(</span><span class="NAME">gl.BLEND_SRC_RGB</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span>     </span><span class="NAME">state.blendFuncSrcAlpha</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getParameter</span><span class="PUNC">(</span><span class="NAME">gl.BLEND_SRC_ALPHA</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span>     </span><span class="NAME">state.blendFuncDstRGB</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getParameter</span><span class="PUNC">(</span><span class="NAME">gl.BLEND_DST_RGB</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span>     </span><span class="NAME">state.blendFuncDstAlpha</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">gl.getParameter</span><span class="PUNC">(</span><span class="NAME">gl.BLEND_DST_ALPHA</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span>     </span><span class="NAME">state.saved</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> 
+<span class='line'>107</span> </span><span class="COMM">/**
+<span class='line'>108</span>  * Restore the WebGL state (a state must have been saved before call this method)
+<span class='line'>109</span>  */</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="NAME">rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.restoreState</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>111</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">state</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.state</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>112</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">state.saved</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>113</span>         </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>115</span> 
+<span class='line'>116</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">gl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.context.getHTMLContext</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> 
+<span class='line'>118</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">colorMask</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">state.colorMask</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>119</span>     </span><span class="NAME">gl.colorMask</span><span class="PUNC">(</span><span class="NAME">colorMask</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">colorMask</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">colorMask</span><span class="PUNC">[</span><span class="NUMB">2</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">colorMask</span><span class="PUNC">[</span><span class="NUMB">3</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>120</span> 
+<span class='line'>121</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">state.cullFaceEnabled</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>122</span>         </span><span class="NAME">gl.enable</span><span class="PUNC">(</span><span class="NAME">gl.CULL_FACE</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>123</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>124</span>         </span><span class="NAME">gl.disable</span><span class="PUNC">(</span><span class="NAME">gl.CULL_FACE</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>125</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>126</span> 
+<span class='line'>127</span>     </span><span class="NAME">gl.frontFace</span><span class="PUNC">(</span><span class="NAME">state.frontFace</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>128</span>     </span><span class="NAME">gl.cullFace</span><span class="PUNC">(</span><span class="NAME">state.cullFace</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>129</span> 
+<span class='line'>130</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">state.depthTestEnabled</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>131</span>         </span><span class="NAME">gl.enable</span><span class="PUNC">(</span><span class="NAME">gl.DEPTH_TEST</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>132</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>133</span>         </span><span class="NAME">gl.disable</span><span class="PUNC">(</span><span class="NAME">gl.DEPTH_TEST</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>134</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>135</span> 
+<span class='line'>136</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">state.blendEnabled</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>137</span>         </span><span class="NAME">gl.enable</span><span class="PUNC">(</span><span class="NAME">gl.BLEND</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>138</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>139</span>         </span><span class="NAME">gl.disable</span><span class="PUNC">(</span><span class="NAME">gl.BLEND</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>140</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>141</span> 
+<span class='line'>142</span>     </span><span class="NAME">gl.blendEquationSeparate</span><span class="PUNC">(</span><span class="NAME">state.blendEquationRGB</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">state.blendEquationAlpha</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span>     </span><span class="NAME">gl.blendFuncSeparate</span><span class="PUNC">(</span><span class="NAME">state.blendFuncSrcRGB</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">state.blendFuncDstRGB</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>144</span>         </span><span class="NAME">state.blendFuncSrcAlpha</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">state.blendFuncDstAlpha</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> 
+<span class='line'>147</span> </span><span class="COMM">/**
+<span class='line'>148</span>  * @see rock.graphics.engine.IGraphicsEngine#clear
+<span class='line'>149</span>  * @override
+<span class='line'>150</span>  */</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="NAME">rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.clear</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">color</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>152</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">gl</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.context.getHTMLContext</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span>     </span><span class="NAME">gl.clearColor</span><span class="PUNC">(</span><span class="NAME">color.getNormalizedRed</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color.getNormalizedGreen</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="WHIT">
+<span class='line'>154</span>         </span><span class="PUNC">.</span><span class="NAME">getNormalizedBlue</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color.getNormalizedAlpha</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span>     </span><span class="NAME">gl.clear</span><span class="PUNC">(</span><span class="NAME">gl.COLOR_BUFFER_BIT</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>157</span> 
+<span class='line'>158</span> </span><span class="NAME">rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.computePerimeterPoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>159</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">circumferencePerimeter</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.circumferencePerimeter</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>160</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rad</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">TWO_PI</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Math.PI</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>162</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">circumferencePoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.CIRCUMFERENCE_POINTS</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>163</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">difference</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">TWO_PI</span><span class="WHIT"> </span><span class="REGX">/ circumferencePoints;
+<span class='line'>164</span> 
+<span class='line'>165</span>     for (i = 0; i &lt; circumferencePoints; i++) {
+<span class='line'>166</span>         rad = i * difference;
+<span class='line'>167</span>         circumferencePerimeter[2 * i] = Math.cos(rad);
+<span class='line'>168</span>         circumferencePerimeter[2 * i + 1] = Math.sin(rad);
+<span class='line'>169</span>     }
+<span class='line'>170</span> };
+<span class='line'>171</span> 
+<span class='line'>172</span> rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.computeCircumferenceVertices = function (x, y, size) {
+<span class='line'>173</span>     var radius = size /</span><span class="WHIT"> </span><span class="NUMB">2.</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>174</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">circumferencePerimeter</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.circumferencePerimeter</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>175</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">circumferencePoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.CIRCUMFERENCE_POINTS</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>176</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">vertices</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.floatArrayCircumference</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>177</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">pos</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">currentPointX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">currentPointY</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nextPointX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">nextPointY</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>178</span> 
+<span class='line'>179</span>     </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">circumferencePoints</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>180</span>         </span><span class="NAME">pos</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span>         </span><span class="NAME">currentPointX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">circumferencePerimeter</span><span class="PUNC">[</span><span class="NAME">pos</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>182</span>         </span><span class="NAME">currentPointY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">circumferencePerimeter</span><span class="PUNC">[</span><span class="NAME">pos</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>183</span>         </span><span class="NAME">nextPointX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">circumferencePerimeter</span><span class="PUNC">[</span><span class="NAME">pos</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>184</span>         </span><span class="NAME">nextPointY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">circumferencePerimeter</span><span class="PUNC">[</span><span class="NAME">pos</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">3</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>185</span> 
+<span class='line'>186</span>         </span><span class="NAME">pos</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">3</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>187</span>         </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NAME">pos</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>188</span>         </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NAME">pos</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>189</span> 
+<span class='line'>190</span>         </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NAME">pos</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">nextPointX</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">radius</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>191</span>         </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NAME">pos</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">3</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">nextPointY</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">radius</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>192</span> 
+<span class='line'>193</span>         </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NAME">pos</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">4</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">currentPointX</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">radius</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>194</span>         </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NAME">pos</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">5</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">currentPointY</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">radius</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>195</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>196</span> 
+<span class='line'>197</span>     </span><span class="NAME">pos</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">3</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">circumferencePoints</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>198</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NAME">pos</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>199</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NAME">pos</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>200</span> 
+<span class='line'>201</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NAME">pos</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">circumferencePerimeter</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">radius</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>202</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NAME">pos</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">3</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">circumferencePerimeter</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">radius</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>203</span> 
+<span class='line'>204</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NAME">pos</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">4</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">circumferencePerimeter</span><span class="PUNC">[</span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">circumferencePoints</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">radius</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>205</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NAME">pos</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">5</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">circumferencePerimeter</span><span class="PUNC">[</span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">circumferencePoints</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">radius</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>207</span> 
+<span class='line'>208</span> </span><span class="COMM">/**
+<span class='line'>209</span>  * @see rock.graphics.engine.IGraphicsEngine#drawPoint
+<span class='line'>210</span>  * @override
+<span class='line'>211</span>  */</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="NAME">rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.drawPoint</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">size</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>213</span>     </span><span class="NAME">this.computeCircumferenceVertices</span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">size</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>214</span>     </span><span class="NAME">this.renderPolygon</span><span class="PUNC">(</span><span class="NAME">this.floatArrayCircumference</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">3</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">this.CIRCUMFERENCE_POINTS</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>216</span> 
+<span class='line'>217</span> </span><span class="COMM">/**
+<span class='line'>218</span>  * @see rock.graphics.engine.IGraphicsEngine#drawLine
+<span class='line'>219</span>  * @override
+<span class='line'>220</span>  */</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="NAME">rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.drawLine</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">fromX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fromY</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">toX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">toY</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>222</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">halfWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">width</span><span class="WHIT"> </span><span class="REGX">/ 2.;
+<span class='line'>223</span>     var orientation = Math.atan2(toY - fromY, toX - fromX);
+<span class='line'>224</span>     var halfPI = Math.PI /</span><span class="WHIT"> </span><span class="NUMB">2.</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>225</span> 
+<span class='line'>226</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">vertices</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.floatArrayRectangle</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>227</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fromX</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">halfWidth</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Math.cos</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">halfPI</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>228</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fromY</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">halfWidth</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Math.sin</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">halfPI</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>229</span> 
+<span class='line'>230</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">2</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fromX</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">halfWidth</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Math.cos</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">halfPI</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>231</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">3</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fromY</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">halfWidth</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Math.sin</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">halfPI</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>232</span> 
+<span class='line'>233</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">4</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">toX</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">halfWidth</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Math.cos</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">halfPI</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>234</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">5</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">toY</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">halfWidth</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Math.sin</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">halfPI</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>235</span> 
+<span class='line'>236</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">6</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fromX</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">halfWidth</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Math.cos</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">halfPI</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>237</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">7</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fromY</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">halfWidth</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Math.sin</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">halfPI</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>238</span> 
+<span class='line'>239</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">8</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">toX</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">halfWidth</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Math.cos</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">halfPI</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>240</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">9</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">toY</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">halfWidth</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Math.sin</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">halfPI</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>241</span> 
+<span class='line'>242</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">10</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">toX</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">halfWidth</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Math.cos</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">halfPI</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>243</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">11</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">toY</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">halfWidth</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Math.sin</span><span class="PUNC">(</span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">halfPI</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>244</span> 
+<span class='line'>245</span>     </span><span class="NAME">this.adjustVertices</span><span class="PUNC">(</span><span class="NAME">vertices</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>246</span> 
+<span class='line'>247</span>     </span><span class="NAME">this.renderPolygon</span><span class="PUNC">(</span><span class="NAME">vertices</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">6</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>249</span> 
+<span class='line'>250</span> </span><span class="NAME">rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.adjustVertices</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">vertices</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>251</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>252</span>     </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">vertices.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>253</span>         </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>254</span>         </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.adjustPixelPosition</span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>255</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>257</span> 
+<span class='line'>258</span> </span><span class="COMM">/**
+<span class='line'>259</span>  * @see rock.graphics.engine.IGraphicsEngine#drawRectangle
+<span class='line'>260</span>  * @override
+<span class='line'>261</span>  */</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="NAME">rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.drawRectangle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">strokeWidth</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>263</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rock.util.JsUtils.isNullOrUndefined</span><span class="PUNC">(</span><span class="NAME">strokeWidth</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">strokeWidth</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>264</span>         </span><span class="NAME">this.drawFilledRectangle</span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>265</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>266</span>         </span><span class="NAME">this.drawStrokeRectangle</span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">strokeWidth</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>267</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>268</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>269</span> 
+<span class='line'>270</span> </span><span class="COMM">/**
+<span class='line'>271</span>  * Draw a filled rectangle
+<span class='line'>272</span>  *
+<span class='line'>273</span>  * @param x
+<span class='line'>274</span>  *            absolute x in context
+<span class='line'>275</span>  * @param y
+<span class='line'>276</span>  *            absolute y in context
+<span class='line'>277</span>  * @param width
+<span class='line'>278</span>  *            the width
+<span class='line'>279</span>  * @param height
+<span class='line'>280</span>  *            the height
+<span class='line'>281</span>  * @param {rock.graphics.Color} color
+<span class='line'>282</span>  *            the color
+<span class='line'>283</span>  *
+<span class='line'>284</span>  * @private
+<span class='line'>285</span>  */</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="NAME">rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.drawFilledRectangle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>287</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">vertices</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.floatArrayRectangle</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>288</span> 
+<span class='line'>289</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>290</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>291</span> 
+<span class='line'>292</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">2</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>293</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">3</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>294</span> 
+<span class='line'>295</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">4</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>296</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">5</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>297</span> 
+<span class='line'>298</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">6</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>299</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">7</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>300</span> 
+<span class='line'>301</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">8</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>302</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">9</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>303</span> 
+<span class='line'>304</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">10</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>305</span>     </span><span class="NAME">vertices</span><span class="PUNC">[</span><span class="NUMB">11</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>306</span> 
+<span class='line'>307</span>     </span><span class="NAME">this.renderPolygon</span><span class="PUNC">(</span><span class="NAME">vertices</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">6</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>309</span> 
+<span class='line'>310</span> </span><span class="COMM">/**
+<span class='line'>311</span>  * Draw a rectangle with an stroke
+<span class='line'>312</span>  *
+<span class='line'>313</span>  * @param x
+<span class='line'>314</span>  *            absolute x in context
+<span class='line'>315</span>  * @param y
+<span class='line'>316</span>  *            absolute y in context
+<span class='line'>317</span>  * @param width
+<span class='line'>318</span>  *            the width
+<span class='line'>319</span>  * @param height
+<span class='line'>320</span>  *            the height
+<span class='line'>321</span>  * @param {rock.graphics.Color} color
+<span class='line'>322</span>  *            the color
+<span class='line'>323</span>  * @param {Number} strokeWidth
+<span class='line'>324</span>  *            stroke width
+<span class='line'>325</span>  *
+<span class='line'>326</span>  * @private
+<span class='line'>327</span>  */</span><span class="WHIT">
+<span class='line'>328</span> </span><span class="NAME">rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.drawStrokeRectangle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT">
+<span class='line'>329</span>     </span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">strokeWidth</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>330</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">middleStrokeWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">strokeWidth</span><span class="WHIT"> </span><span class="REGX">/ 2;
+<span class='line'>331</span>     var xmin = x;
+<span class='line'>332</span>     var xmax = x + width;
+<span class='line'>333</span>     var ymin = y;
+<span class='line'>334</span>     var ymax = y + height;
+<span class='line'>335</span>     this.drawLine(xmin - middleStrokeWidth, ymin, xmax + middleStrokeWidth, ymin, strokeWidth, color);
+<span class='line'>336</span>     this.drawLine(xmin, ymin, xmin, ymax, strokeWidth, color);
+<span class='line'>337</span>     this.drawLine(xmin - middleStrokeWidth, ymax, xmax + middleStrokeWidth, ymax, strokeWidth, color);
+<span class='line'>338</span>     this.drawLine(xmax, ymin, xmax, ymax, strokeWidth, color);
+<span class='line'>339</span> };
+<span class='line'>340</span> 
+<span class='line'>341</span> /</span><span class="PUNC">*</span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'>342</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">see</span><span class="WHIT"> </span><span class="NAME">rock.graphics.engine.IGraphicsEngine</span><span class="TOKN">#</span><span class="NAME">drawRoundedRectangle</span><span class="WHIT">
+<span class='line'>343</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">override</span><span class="WHIT">
+<span class='line'>344</span>  </span><span class="PUNC">*</span><span class="REGX">/
+<span class='line'>345</span> rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.drawRoundedRectangle = function (x, y, width, height, radius, color) {
+<span class='line'>346</span>     /</span><span class="REGX">/ OK, VERY inefficient way to do it...
+<span class='line'>347</span>     var size = radius * 2;
+<span class='line'>348</span>     this.computeCircumferenceVertices(x + radius, y + radius, size);
+<span class='line'>349</span>     this.renderPolygon(this.floatArrayCircumference, 3 * this.CIRCUMFERENCE_POINTS, color);
+<span class='line'>350</span> 
+<span class='line'>351</span>     this.computeCircumferenceVertices(x + width - radius, y + radius, size);
+<span class='line'>352</span>     this.renderPolygon(this.floatArrayCircumference, 3 * this.CIRCUMFERENCE_POINTS, color);
+<span class='line'>353</span> 
+<span class='line'>354</span>     this.computeCircumferenceVertices(x + radius, y + height - radius, size);
+<span class='line'>355</span>     this.renderPolygon(this.floatArrayCircumference, 3 * this.CIRCUMFERENCE_POINTS, color);
+<span class='line'>356</span> 
+<span class='line'>357</span>     this.computeCircumferenceVertices(x + width - radius, y + height - radius, size);
+<span class='line'>358</span>     this.renderPolygon(this.floatArrayCircumference, 3 * this.CIRCUMFERENCE_POINTS, color);
+<span class='line'>359</span> 
+<span class='line'>360</span>     this.drawFilledRectangle(x, y + radius, width, height - size, color);
+<span class='line'>361</span>     this.drawFilledRectangle(x + radius, y, width - size, height, color);
+<span class='line'>362</span> };
+<span class='line'>363</span> 
+<span class='line'>364</span> /</span><span class="PUNC">*</span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'>365</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Render</span><span class="WHIT"> </span><span class="NAME">a</span><span class="WHIT"> </span><span class="NAME">polygon</span><span class="WHIT">
+<span class='line'>366</span>  </span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'>367</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">param</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">Float32Array</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="NAME">vertices</span><span class="WHIT">
+<span class='line'>368</span>  </span><span class="PUNC">*</span><span class="WHIT">      </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">vertices</span><span class="WHIT"> </span><span class="NAME">to</span><span class="WHIT"> </span><span class="NAME">be</span><span class="WHIT"> </span><span class="NAME">rendered</span><span class="WHIT">
+<span class='line'>369</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">param</span><span class="WHIT"> </span><span class="NAME">count</span><span class="WHIT">
+<span class='line'>370</span>  </span><span class="PUNC">*</span><span class="WHIT">       </span><span class="NAME">number</span><span class="WHIT"> </span><span class="NAME">of</span><span class="WHIT"> </span><span class="NAME">vertices</span><span class="WHIT"> </span><span class="NAME">to</span><span class="WHIT"> </span><span class="NAME">be</span><span class="WHIT"> </span><span class="NAME">rendered</span><span class="WHIT">
+<span class='line'>371</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">param</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">rock.graphics.Color</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="NAME">color</span><span class="WHIT">
+<span class='line'>372</span>  </span><span class="PUNC">*</span><span class="WHIT">      </span><span class="NAME">color</span><span class="WHIT"> </span><span class="NAME">of</span><span class="WHIT"> </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">polygon</span><span class="WHIT">
+<span class='line'>373</span>  </span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'>374</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">private</span><span class="WHIT">
+<span class='line'>375</span>  </span><span class="PUNC">*</span><span class="REGX">/
+<span class='line'>376</span> rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.renderPolygon = function (vertices, count, color) {
+<span class='line'>377</span>     this.prepareWebGLEngine();
+<span class='line'>378</span> 
+<span class='line'>379</span>     var polygonRenderer = this.polygonRenderer;
+<span class='line'>380</span>     var polygonRenderable = this.polygonRenderable;
+<span class='line'>381</span> 
+<span class='line'>382</span>     polygonRenderable.setVertices(vertices);
+<span class='line'>383</span>     polygonRenderable.setCount(count);
+<span class='line'>384</span>     polygonRenderable.setWidth(this.width);
+<span class='line'>385</span>     polygonRenderable.setHeight(this.height);
+<span class='line'>386</span>     polygonRenderable.setColor(color);
+<span class='line'>387</span> 
+<span class='line'>388</span>     polygonRenderer.render(polygonRenderable);
+<span class='line'>389</span> };
+<span class='line'>390</span> 
+<span class='line'>391</span> /</span><span class="PUNC">*</span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'>392</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">see</span><span class="WHIT"> </span><span class="NAME">rock.graphics.engine.IGraphicsEngine</span><span class="TOKN">#</span><span class="NAME">drawImage</span><span class="WHIT">
+<span class='line'>393</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">override</span><span class="WHIT">
+<span class='line'>394</span>  </span><span class="PUNC">*</span><span class="REGX">/
+<span class='line'>395</span> rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.drawImage = function (image, x, y, width, height) {
+<span class='line'>396</span>     var drawingWidth, drawingHeight;
+<span class='line'>397</span> 
+<span class='line'>398</span>     if (!rock.util.JsUtils.isNullOrUndefined(width)) {
+<span class='line'>399</span>         drawingWidth = width;
+<span class='line'>400</span>     } else {
+<span class='line'>401</span>         drawingWidth = image.getWidth();
+<span class='line'>402</span>     }
+<span class='line'>403</span> 
+<span class='line'>404</span>     if (!rock.util.JsUtils.isNullOrUndefined(height)) {
+<span class='line'>405</span>         drawingHeight = height;
+<span class='line'>406</span>     } else {
+<span class='line'>407</span>         drawingHeight = image.getHeight();
+<span class='line'>408</span>     }
+<span class='line'>409</span> 
+<span class='line'>410</span>     var vertices = this.floatArrayRectangle;
+<span class='line'>411</span>     vertices[0] = x;
+<span class='line'>412</span>     vertices[1] = y;
+<span class='line'>413</span> 
+<span class='line'>414</span>     vertices[2] = x;
+<span class='line'>415</span>     vertices[3] = y + drawingHeight;
+<span class='line'>416</span> 
+<span class='line'>417</span>     vertices[4] = x + drawingWidth;
+<span class='line'>418</span>     vertices[5] = y + drawingHeight;
+<span class='line'>419</span> 
+<span class='line'>420</span>     vertices[6] = x;
+<span class='line'>421</span>     vertices[7] = y;
+<span class='line'>422</span> 
+<span class='line'>423</span>     vertices[8] = x + drawingWidth;
+<span class='line'>424</span>     vertices[9] = y + drawingHeight;
+<span class='line'>425</span> 
+<span class='line'>426</span>     vertices[10] = x + drawingWidth;
+<span class='line'>427</span>     vertices[11] = y;
+<span class='line'>428</span> 
+<span class='line'>429</span>     var textureVertices = this.floatArrayTextureCoordiantes;
+<span class='line'>430</span>     textureVertices[0] = 0;
+<span class='line'>431</span>     textureVertices[1] = 0;
+<span class='line'>432</span> 
+<span class='line'>433</span>     textureVertices[2] = 0;
+<span class='line'>434</span>     textureVertices[3] = 1;
+<span class='line'>435</span> 
+<span class='line'>436</span>     textureVertices[4] = 1;
+<span class='line'>437</span>     textureVertices[5] = 1;
+<span class='line'>438</span> 
+<span class='line'>439</span>     textureVertices[6] = 0;
+<span class='line'>440</span>     textureVertices[7] = 0;
+<span class='line'>441</span> 
+<span class='line'>442</span>     textureVertices[8] = 1;
+<span class='line'>443</span>     textureVertices[9] = 1;
+<span class='line'>444</span> 
+<span class='line'>445</span>     textureVertices[10] = 1;
+<span class='line'>446</span>     textureVertices[11] = 0;
+<span class='line'>447</span> 
+<span class='line'>448</span>     this.renderImage(image, vertices, 6, textureVertices);
+<span class='line'>449</span> };
+<span class='line'>450</span> 
+<span class='line'>451</span> /</span><span class="PUNC">*</span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'>452</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">see</span><span class="WHIT"> </span><span class="NAME">rock.graphics.engine.IGraphicsEngine</span><span class="TOKN">#</span><span class="NAME">drawSubImage</span><span class="WHIT">
+<span class='line'>453</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">override</span><span class="WHIT">
+<span class='line'>454</span>  </span><span class="PUNC">*</span><span class="REGX">/
+<span class='line'>455</span> rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.drawSubImage = function (image, x, y, subX, subY, subWidth, subHeight) {
+<span class='line'>456</span>     var width = image.getWidth();
+<span class='line'>457</span>     var height = image.getHeight();
+<span class='line'>458</span> 
+<span class='line'>459</span>     var imageRectangle = new rock.geometry.Rectangle(x, y, x + width, y + height);
+<span class='line'>460</span>     var drawingRectangle = new rock.geometry.Rectangle(x + subX, y + subY,
+<span class='line'>461</span>         x + subX + subWidth, y + subY + subHeight);
+<span class='line'>462</span> 
+<span class='line'>463</span>     var intersection = imageRectangle.getIntersectionWithRectangle(drawingRectangle);
+<span class='line'>464</span>     if (rock.util.JsUtils.isNullOrUndefined(intersection)) {
+<span class='line'>465</span>         return;
+<span class='line'>466</span>     }
+<span class='line'>467</span> 
+<span class='line'>468</span>     var intersectionWidth = intersection.getWidth();
+<span class='line'>469</span>     var intersectionHeight = intersection.getHeight();
+<span class='line'>470</span> 
+<span class='line'>471</span>     var textMinX = subX /</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>472</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">textMaxX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">subX</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">intersectionWidth</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="REGX">/ width;
+<span class='line'>473</span>     var textMinY = subY /</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>474</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">textMaxY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">subY</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">intersectionHeight</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="REGX">/ height;
+<span class='line'>475</span> 
+<span class='line'>476</span>     var vertices = this.floatArrayRectangle;
+<span class='line'>477</span>     vertices[0] = x;
+<span class='line'>478</span>     vertices[1] = y;
+<span class='line'>479</span> 
+<span class='line'>480</span>     vertices[2] = x;
+<span class='line'>481</span>     vertices[3] = y + intersectionHeight;
+<span class='line'>482</span> 
+<span class='line'>483</span>     vertices[4] = x + intersectionWidth;
+<span class='line'>484</span>     vertices[5] = y + intersectionHeight;
+<span class='line'>485</span> 
+<span class='line'>486</span>     vertices[6] = x;
+<span class='line'>487</span>     vertices[7] = y;
+<span class='line'>488</span> 
+<span class='line'>489</span>     vertices[8] = x + intersectionWidth;
+<span class='line'>490</span>     vertices[9] = y + intersectionHeight;
+<span class='line'>491</span> 
+<span class='line'>492</span>     vertices[10] = x + intersectionWidth;
+<span class='line'>493</span>     vertices[11] = y;
+<span class='line'>494</span> 
+<span class='line'>495</span>     var textureCoordinates = this.floatArrayTextureCoordiantes;
+<span class='line'>496</span>     textureCoordinates[0] = textMinX;
+<span class='line'>497</span>     textureCoordinates[1] = textMinY;
+<span class='line'>498</span> 
+<span class='line'>499</span>     textureCoordinates[2] = textMinX;
+<span class='line'>500</span>     textureCoordinates[3] = textMaxY;
+<span class='line'>501</span> 
+<span class='line'>502</span>     textureCoordinates[4] = textMaxX;
+<span class='line'>503</span>     textureCoordinates[5] = textMaxY;
+<span class='line'>504</span> 
+<span class='line'>505</span>     textureCoordinates[6] = textMinX;
+<span class='line'>506</span>     textureCoordinates[7] = textMinY;
+<span class='line'>507</span> 
+<span class='line'>508</span>     textureCoordinates[8] = textMaxX;
+<span class='line'>509</span>     textureCoordinates[9] = textMaxY;
+<span class='line'>510</span> 
+<span class='line'>511</span>     textureCoordinates[10] = textMaxX;
+<span class='line'>512</span>     textureCoordinates[11] = textMinY;
+<span class='line'>513</span> 
+<span class='line'>514</span>     this.renderImage(image, vertices, 6, textureCoordinates);
+<span class='line'>515</span> };
+<span class='line'>516</span> 
+<span class='line'>517</span> /</span><span class="PUNC">*</span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'>518</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Render</span><span class="WHIT"> </span><span class="NAME">an</span><span class="WHIT"> </span><span class="NAME">image</span><span class="WHIT">
+<span class='line'>519</span>  </span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'>520</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">param</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">rock.graphics.Image</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="NAME">image</span><span class="WHIT">
+<span class='line'>521</span>  </span><span class="PUNC">*</span><span class="WHIT">      </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">image</span><span class="WHIT">
+<span class='line'>522</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">param</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">Float32Array</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="NAME">vertices</span><span class="WHIT">
+<span class='line'>523</span>  </span><span class="PUNC">*</span><span class="WHIT">      </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">vertices</span><span class="WHIT"> </span><span class="NAME">to</span><span class="WHIT"> </span><span class="NAME">be</span><span class="WHIT"> </span><span class="NAME">rendered</span><span class="WHIT">
+<span class='line'>524</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">param</span><span class="WHIT"> </span><span class="NAME">count</span><span class="WHIT">
+<span class='line'>525</span>  </span><span class="PUNC">*</span><span class="WHIT">       </span><span class="NAME">number</span><span class="WHIT"> </span><span class="NAME">of</span><span class="WHIT"> </span><span class="NAME">vertices</span><span class="WHIT"> </span><span class="NAME">to</span><span class="WHIT"> </span><span class="NAME">be</span><span class="WHIT"> </span><span class="NAME">rendered</span><span class="WHIT">
+<span class='line'>526</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">param</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">Float32Array</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="NAME">textureCoordinates</span><span class="WHIT">
+<span class='line'>527</span>  </span><span class="PUNC">*</span><span class="WHIT">      </span><span class="NAME">texture</span><span class="WHIT"> </span><span class="NAME">coordinates</span><span class="WHIT"> </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="NAME">image</span><span class="WHIT">
+<span class='line'>528</span>  </span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'>529</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">private</span><span class="WHIT">
+<span class='line'>530</span>  </span><span class="PUNC">*</span><span class="REGX">/
+<span class='line'>531</span> rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.renderImage = function (image, vertices, count, textureCoordinates) {
+<span class='line'>532</span>     this.prepareWebGLEngine(image.getPremultipliedAlpha());
+<span class='line'>533</span> 
+<span class='line'>534</span>     var imageRenderer = this.imageRenderer;
+<span class='line'>535</span>     var imageRenderable = this.imageRenderable;
+<span class='line'>536</span> 
+<span class='line'>537</span>     imageRenderable.setVertices(vertices);
+<span class='line'>538</span>     imageRenderable.setCount(count);
+<span class='line'>539</span>     imageRenderable.setWidth(this.width);
+<span class='line'>540</span>     imageRenderable.setHeight(this.height);
+<span class='line'>541</span>     imageRenderable.setImage(image);
+<span class='line'>542</span>     imageRenderable.setTextureCoordinates(textureCoordinates);
+<span class='line'>543</span> 
+<span class='line'>544</span>     imageRenderer.render(imageRenderable);
+<span class='line'>545</span> };
+<span class='line'>546</span> 
+<span class='line'>547</span> /</span><span class="PUNC">*</span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'>548</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">see</span><span class="WHIT"> </span><span class="NAME">rock.graphics.engine.IGraphicsEngine</span><span class="TOKN">#</span><span class="NAME">drawText</span><span class="WHIT">
+<span class='line'>549</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">override</span><span class="WHIT">
+<span class='line'>550</span>  </span><span class="PUNC">*</span><span class="REGX">/
+<span class='line'>551</span> rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.drawText = function
+<span class='line'>552</span>         (text, x, y, font, color, clippingWidth, clippingHeight) {
+<span class='line'>553</span> 
+<span class='line'>554</span>     var textWidth = rock.util.TextUtils.measureTextWidth(text, font);
+<span class='line'>555</span>     var textHeight = rock.util.TextUtils.measureTextHeight(text, font);
+<span class='line'>556</span> 
+<span class='line'>557</span>     if (textWidth == 0 || textHeight == 0) {
+<span class='line'>558</span>         return;
+<span class='line'>559</span>     }
+<span class='line'>560</span> 
+<span class='line'>561</span>     /</span><span class="REGX">/ we compute maximum possible width & height
+<span class='line'>562</span>     var width = this.width - x;
+<span class='line'>563</span>     var height = this.height - y;
+<span class='line'>564</span> 
+<span class='line'>565</span>     if (textWidth > width) {
+<span class='line'>566</span>         textWidth = width;
+<span class='line'>567</span>     }
+<span class='line'>568</span> 
+<span class='line'>569</span>     if (textHeight > height) {
+<span class='line'>570</span>         textHeight = height;
+<span class='line'>571</span>     }
+<span class='line'>572</span> 
+<span class='line'>573</span>     var canvasGraphicsEngine = this.canvasGraphicsEngine;
+<span class='line'>574</span>     var canvas2D = canvasGraphicsEngine.getContext().getHTMLContext();
+<span class='line'>575</span>     canvas2D.canvas.width = textWidth;
+<span class='line'>576</span>     canvas2D.canvas.height = textHeight;
+<span class='line'>577</span>     canvasGraphicsEngine.computeSize();
+<span class='line'>578</span> 
+<span class='line'>579</span>     canvasGraphicsEngine.clear(this.transparent);
+<span class='line'>580</span>     canvasGraphicsEngine.drawText(text, 0, 0, font, color, clippingWidth, clippingHeight);
+<span class='line'>581</span> 
+<span class='line'>582</span>     var imageData = canvas2D.getImageData(0, 0, textWidth, textHeight);
+<span class='line'>583</span>     var image = new rock.graphics.Image(imageData);
+<span class='line'>584</span> 
+<span class='line'>585</span>     this.drawImage(image, x, y);
+<span class='line'>586</span> };
+<span class='line'>587</span> 
+<span class='line'>588</span> /</span><span class="PUNC">*</span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'>589</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">see</span><span class="WHIT"> </span><span class="NAME">rock.graphics.engine.IGraphicsEngine</span><span class="TOKN">#</span><span class="NAME">measureTextWidth</span><span class="WHIT">
+<span class='line'>590</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">override</span><span class="WHIT">
+<span class='line'>591</span>  </span><span class="PUNC">*</span><span class="REGX">/
+<span class='line'>592</span> rock.graphics.engine.webgl.WebGLGraphicsEngine.prototype.measureTextWidth = function (text, font) {
+<span class='line'>593</span>     return this.canvasGraphicsEngine.measureTextWidth(text, font);
+<span class='line'>594</span> };
+<span class='line'>595</span> 
+<span class='line'>596</span> /</span><span class="PUNC">*</span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'>597</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">see</span><span class="WHIT"> </span><span class="NAME">rock.graphics.engine.IGraphicsEngine</span><span class="TOKN">#</span><span class="NAME">measureTextHeight</span><span class="WHIT">
+<span class='line'>598</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">override</span><span class="WHIT">
+<span class='line'>599</span>  </span><span class="PUNC">*</span><span class="TOKN"></span></pre></body></html>

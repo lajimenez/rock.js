@@ -1,0 +1,16 @@
+html * {
+    font-family: 'Open Sans', sans-serif;
+    font-size: small;
+}
+
+.hidden {
+    display: none;
+}
+
+.center {
+    text-align: center;
+}
+
+.fit {
+    display: inline-block;
+}

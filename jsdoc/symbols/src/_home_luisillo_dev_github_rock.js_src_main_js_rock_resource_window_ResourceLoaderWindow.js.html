@@ -1,0 +1,131 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="NAME">rock.namespace</span><span class="PUNC">(</span><span class="STRN">'rock.resource.window'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="COMM">/**
+<span class='line'>  4</span>  * Window to show loading process
+<span class='line'>  5</span>  *
+<span class='line'>  6</span>  * @param  {rock.app.Application} application
+<span class='line'>  7</span>  *            the application where this window will be part
+<span class='line'>  8</span>  *
+<span class='line'>  9</span>  * @constructor
+<span class='line'> 10</span>  * @extends rock.window.Window
+<span class='line'> 11</span>  * @author Luis Alberto Jiménez
+<span class='line'> 12</span>  */</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="NAME">rock.window.ResourceLoaderWindow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">application</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 14</span>     </span><span class="NAME">rock.super_</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 15</span>     </span><span class="NAME">this.resourceLoaderManager</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.resource.loader.ResourceLoaderManager</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 16</span>     </span><span class="NAME">this.resourceLoaderManager.addEventListener</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 17</span>         </span><span class="NAME">rock.resource.event.ResourceLoadedEvent.RESOURCE_LOADED</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 18</span>         </span><span class="NAME">rock.createEventHandler</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.resourceLoaded</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 19</span> 
+<span class='line'> 20</span>     </span><span class="NAME">this.resourceLoaderManager</span><span class="WHIT">
+<span class='line'> 21</span>         </span><span class="PUNC">.</span><span class="NAME">addEventListener</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 22</span>         </span><span class="NAME">rock.resource.event.ResourceLoaderComplete.RESOURCE_LOADER_COMPLETE</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 23</span>         </span><span class="NAME">rock.createEventHandler</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 24</span>             </span><span class="NAME">this.resourceLoaderManagerComplete</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span> 
+<span class='line'> 26</span>     </span><span class="COMM">// Space between Label and ProgressBar</span><span class="WHIT">
+<span class='line'> 27</span>     </span><span class="NAME">this.margin</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">5</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> 
+<span class='line'> 29</span>     </span><span class="NAME">this.progressBar</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.window.component.ProgressBarComponent</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span>     </span><span class="NAME">this.setProgressBarWidth</span><span class="PUNC">(</span><span class="NAME">this.windowSystem.getWidth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="REGX">/ 2);
+<span class='line'> 31</span>     this.setProgressBarHeight(30);
+<span class='line'> 32</span> 
+<span class='line'> 33</span>     this.addComponent(this.progressBar);
+<span class='line'> 34</span> 
+<span class='line'> 35</span>     this.label = new rock.window.component.Label(this, rock.resource.rockResourceManager.getString('RESOURCE_WINDOW_LOADING_LABEL'));
+<span class='line'> 36</span>     this.addComponent(this.label);
+<span class='line'> 37</span> };
+<span class='line'> 38</span> 
+<span class='line'> 39</span> rock.extends_(rock.window.ResourceLoaderWindow, rock.window.Window);
+<span class='line'> 40</span> 
+<span class='line'> 41</span> /</span><span class="PUNC">*</span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'> 42</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Set</span><span class="WHIT"> </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">width</span><span class="WHIT"> </span><span class="NAME">of</span><span class="WHIT"> </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">progress</span><span class="WHIT"> </span><span class="NAME">bar</span><span class="WHIT">
+<span class='line'> 43</span>  </span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'> 44</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">param</span><span class="WHIT"> </span><span class="NAME">width</span><span class="WHIT">
+<span class='line'> 45</span>  </span><span class="PUNC">*</span><span class="WHIT">      </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">width</span><span class="WHIT">
+<span class='line'> 46</span>  </span><span class="PUNC">*</span><span class="REGX">/
+<span class='line'> 47</span> rock.window.ResourceLoaderWindow.prototype.setProgressBarWidth = function (width) {
+<span class='line'> 48</span>     this.progressBar.setWidth(width);
+<span class='line'> 49</span> }
+<span class='line'> 50</span> 
+<span class='line'> 51</span> /</span><span class="PUNC">*</span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'> 52</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Set</span><span class="WHIT"> </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">height</span><span class="WHIT"> </span><span class="NAME">of</span><span class="WHIT"> </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">progress</span><span class="WHIT"> </span><span class="NAME">bar</span><span class="WHIT">
+<span class='line'> 53</span>  </span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'> 54</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">param</span><span class="WHIT"> </span><span class="NAME">height</span><span class="WHIT">
+<span class='line'> 55</span>  </span><span class="PUNC">*</span><span class="WHIT">      </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">height</span><span class="WHIT">
+<span class='line'> 56</span>  </span><span class="PUNC">*</span><span class="REGX">/
+<span class='line'> 57</span> rock.window.ResourceLoaderWindow.prototype.setProgressBarHeight = function (height) {
+<span class='line'> 58</span>     this.progressBar.setHeight(height);
+<span class='line'> 59</span> }
+<span class='line'> 60</span> 
+<span class='line'> 61</span> /</span><span class="PUNC">*</span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'> 62</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Load</span><span class="WHIT"> </span><span class="NAME">resources</span><span class="WHIT">
+<span class='line'> 63</span>  </span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'> 64</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">param</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">Array</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="NAME">elems</span><span class="WHIT">
+<span class='line'> 65</span>  </span><span class="PUNC">*</span><span class="WHIT">            </span><span class="NAME">info</span><span class="WHIT"> </span><span class="KEYW">with</span><span class="WHIT"> </span><span class="NAME">elements</span><span class="WHIT"> </span><span class="NAME">to</span><span class="WHIT"> </span><span class="NAME">load</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="TOKN">@</span><span class="NAME">link</span><span class="WHIT"> </span><span class="NAME">rock.resource.loader.ResourceLoaderElement</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 66</span>  </span><span class="PUNC">*</span><span class="REGX">/
+<span class='line'> 67</span> rock.window.ResourceLoaderWindow.prototype.loadResources = function (elems) {
+<span class='line'> 68</span>     this.resourceLoaderManager.loadResources(elems);
+<span class='line'> 69</span> };
+<span class='line'> 70</span> 
+<span class='line'> 71</span> rock.window.ResourceLoaderWindow.prototype.resourceLoaded = function (event) {
+<span class='line'> 72</span>     this.progressBar.setPercentLoaded(this.resourceLoaderManager
+<span class='line'> 73</span>         .getPercentLoaded());
+<span class='line'> 74</span>     this.redraw();
+<span class='line'> 75</span> };
+<span class='line'> 76</span> 
+<span class='line'> 77</span> rock.window.ResourceLoaderWindow.prototype.resourceLoaderManagerComplete = function (event) {
+<span class='line'> 78</span>     var resourceWindowCompleteEvent = new rock.resource.event.ResourceWindowCompleteEvent();
+<span class='line'> 79</span>     this.dispatchEvent(resourceWindowCompleteEvent);
+<span class='line'> 80</span> };
+<span class='line'> 81</span> 
+<span class='line'> 82</span> /</span><span class="PUNC">*</span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'> 83</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Compute</span><span class="WHIT"> </span><span class="NAME">position</span><span class="WHIT"> </span><span class="NAME">of</span><span class="WHIT"> </span><span class="NAME">progress</span><span class="WHIT"> </span><span class="NAME">bar</span><span class="WHIT"> </span><span class="NAME">to</span><span class="WHIT"> </span><span class="NAME">set</span><span class="WHIT"> </span><span class="NAME">at</span><span class="WHIT"> </span><span class="NAME">center</span><span class="WHIT">
+<span class='line'> 84</span>  </span><span class="PUNC">*</span><span class="REGX">/
+<span class='line'> 85</span> rock.window.ResourceLoaderWindow.prototype.updateComponents = function () {
+<span class='line'> 86</span>     var zeroPoint = new rock.geometry.Point2(0, 0);
+<span class='line'> 87</span>     var drawPoint = rock.util.GeometryUtils.getPointMakesSameCenter(zeroPoint,
+<span class='line'> 88</span>         this.windowSystem.getWidth(), this.windowSystem.getHeight(),
+<span class='line'> 89</span>         this.progressBar.getComputedWidth(), this.progressBar.getComputedHeight());
+<span class='line'> 90</span> 
+<span class='line'> 91</span>     this.progressBar.setX(drawPoint.getX());
+<span class='line'> 92</span>     this.progressBar.setY(drawPoint.getY());
+<span class='line'> 93</span> 
+<span class='line'> 94</span>     var label = this.label;
+<span class='line'> 95</span>     var textWidth = label.getComputedWidth();
+<span class='line'> 96</span>     var textHeight = label.getComputedHeight();
+<span class='line'> 97</span> 
+<span class='line'> 98</span>     drawPoint = rock.util.GeometryUtils.getPointMakesSameCenter(zeroPoint,
+<span class='line'> 99</span>         this.windowSystem.getWidth(), this.windowSystem.getHeight(),
+<span class='line'>100</span>         textWidth, textHeight);
+<span class='line'>101</span> 
+<span class='line'>102</span>     this.label.setX(drawPoint.getX());
+<span class='line'>103</span>     this.label.setY(this.progressBar.getY() - (textHeight + this.margin));
+<span class='line'>104</span> };
+<span class='line'>105</span> 
+<span class='line'>106</span> /</span><span class="PUNC">*</span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'>107</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">override</span><span class="WHIT">
+<span class='line'>108</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="TOKN">@</span><span class="NAME">see</span><span class="WHIT"> </span><span class="NAME">rock.window.Window</span><span class="TOKN">#</span><span class="NAME">draw</span><span class="WHIT">
+<span class='line'>109</span>  </span><span class="PUNC">*</span><span class="REGX">/
+<span class='line'>110</span> rock.window.ResourceLoaderWindow.prototype.draw = function(graphicsEngine){
+<span class='line'>111</span>     this.updateComponents();
+<span class='line'>112</span>     rock.super_method(this, rock.window.ResourceLoaderWindow, 'draw', [graphicsEngine]);
+<span class='line'>113</span> };
+<span class='line'>114</span> 
+<span class='line'>115</span> /</span><span class="PUNC">*</span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'>116</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Get</span><span class="WHIT"> </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT">
+<span class='line'>117</span>  </span><span class="PUNC">*</span><span class="REGX">/
+<span class='line'>118</span> rock.window.ResourceLoaderWindow.prototype.getResourceLoaderManager = function() {
+<span class='line'>119</span>     return this.resourceLoaderManager;
+<span class='line'>120</span> };
+<span class='line'>121</span> 
+<span class='line'>122</span> /</span><span class="PUNC">*</span><span class="PUNC">*</span><span class="WHIT">
+<span class='line'>123</span>  </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">Get</span><span class="WHIT"> </span><span class="NAME">the</span><span class="WHIT"> </span><span class="NAME">label</span><span class="WHIT">
+<span class='line'>124</span>  </span><span class="PUNC">*</span><span class="TOKN"></span></pre></body></html>

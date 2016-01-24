@@ -1,0 +1,40 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="NAME">rock.namespace</span><span class="PUNC">(</span><span class="STRN">'rock.graphics.engine.renderer.webgl'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="COMM">/**
+<span class='line'>  4</span>  * Base class for use to render elements in WebGL
+<span class='line'>  5</span>  *
+<span class='line'>  6</span>  * @param {rock.graphics.engine.webgl.WebGLContext} glContext
+<span class='line'>  7</span>  *         the WebGL context
+<span class='line'>  8</span>  * @param {String} vertexShaderSrc
+<span class='line'>  9</span>  *         source for the vertex shader
+<span class='line'> 10</span>  * @param {String} fragmentShaderSrc
+<span class='line'> 11</span>  *         source for the fragment shader
+<span class='line'> 12</span>  * @param {Array} attributes
+<span class='line'> 13</span>  *          list of attributes in program
+<span class='line'> 14</span>  * @param {Array} uniforms
+<span class='line'> 15</span>  *          list of uniform in program
+<span class='line'> 16</span>  * @param {Array} textures
+<span class='line'> 17</span>  *          list of textures in program
+<span class='line'> 18</span>  *
+<span class='line'> 19</span>  * @constructor
+<span class='line'> 20</span>  * @augments {rock.graphics.engine.renderer.IRenderer}
+<span class='line'> 21</span>  *
+<span class='line'> 22</span>  * @author Luis Alberto Jiménez
+<span class='line'> 23</span>  */</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="NAME">rock.graphics.engine.renderer.webgl.Renderer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">glContext</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">vertexShaderSrc</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fragmentShaderSrc</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 25</span>                                                               </span><span class="NAME">attributes</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">uniforms</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">textures</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 26</span>     </span><span class="NAME">this.glContext</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">glContext</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 27</span>     </span><span class="NAME">this.program</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">
+<span class='line'> 28</span>         </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.graphics.engine.renderer.webgl.program.CacheProgram</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 29</span>             </span><span class="NAME">glContext</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">vertexShaderSrc</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">fragmentShaderSrc</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">attributes</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">uniforms</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">textures</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 31</span> 
+<span class='line'> 32</span> </span><span class="NAME">rock.implements_</span><span class="PUNC">(</span><span class="NAME">rock.graphics.engine.renderer.webgl.Renderer</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rock.graphics.engine.renderer.IRenderer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 33</span> </span></pre></body></html>

@@ -1,0 +1,126 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="NAME">rock.namespace</span><span class="PUNC">(</span><span class="STRN">'rock.window.style'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="COMM">/**
+<span class='line'>  4</span>  * Class for managing windows and components styles.
+<span class='line'>  5</span>  * Use this class for initializing styles, not for dynamically changing it.
+<span class='line'>  6</span>  *
+<span class='line'>  7</span>  * @constructor
+<span class='line'>  8</span>  *
+<span class='line'>  9</span>  * @author Luis Alberto Jiménez
+<span class='line'> 10</span>  */</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="NAME">rock.window.style.StyleManager</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 12</span>     </span><span class="NAME">this.styles</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 13</span>     </span><span class="NAME">this.currentStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 14</span> 
+<span class='line'> 15</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rockStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rock.window.style.StyleManager.createRockStyle</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 16</span>     </span><span class="NAME">this.addStyle</span><span class="PUNC">(</span><span class="NAME">rockStyle</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 17</span>     </span><span class="NAME">this.setCurrentStyle</span><span class="PUNC">(</span><span class="NAME">rockStyle.getId</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 19</span> 
+<span class='line'> 20</span> </span><span class="NAME">rock.window.style.StyleManager.WINDOW_BACKGROUND_COLOR</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'WINDOW_BACKGROUND_COLOR'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 21</span> 
+<span class='line'> 22</span> </span><span class="NAME">rock.window.style.StyleManager.COMPONENT_BACKGROUND_COLOR</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'COMPONENT_BACKGROUND_COLOR'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 23</span> 
+<span class='line'> 24</span> </span><span class="NAME">rock.window.style.StyleManager.COMPONENT_COLOR</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'COMPONENT_COLOR'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span> 
+<span class='line'> 26</span> </span><span class="NAME">rock.window.style.StyleManager.COMPONENT_COLOR_2</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'COMPONENT_COLOR_2'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 27</span> 
+<span class='line'> 28</span> </span><span class="NAME">rock.window.style.StyleManager.COMPONENT_FONT_COLOR</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'COMPONENT_FONT_COLOR'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 29</span> 
+<span class='line'> 30</span> </span><span class="NAME">rock.window.style.StyleManager.COMPONENT_FONT</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'COMPONENT_FONT'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 31</span> 
+<span class='line'> 32</span> </span><span class="COMM">/**
+<span class='line'> 33</span>  * Create the default rock style
+<span class='line'> 34</span>  *
+<span class='line'> 35</span>  * @returns {rock.window.style.Style}
+<span class='line'> 36</span>  */</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="NAME">rock.window.style.StyleManager.createRockStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 38</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ROCK_STYLE_ID</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rock.constants.ROCK_STYLE_ID</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">rockStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.window.style.Style</span><span class="PUNC">(</span><span class="NAME">ROCK_STYLE_ID</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> 
+<span class='line'> 41</span>     </span><span class="NAME">rockStyle.addColor</span><span class="PUNC">(</span><span class="NAME">rock.window.style.StyleManager.WINDOW_BACKGROUND_COLOR</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 42</span>         </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.graphics.Color</span><span class="PUNC">(</span><span class="NUMB">174</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">222</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">255</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 43</span> 
+<span class='line'> 44</span>     </span><span class="NAME">rockStyle.addColor</span><span class="PUNC">(</span><span class="NAME">rock.window.style.StyleManager.COMPONENT_BACKGROUND_COLOR</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 45</span>         </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.graphics.Color</span><span class="PUNC">(</span><span class="NUMB">123</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">201</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">255</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span> 
+<span class='line'> 47</span>     </span><span class="NAME">rockStyle.addColor</span><span class="PUNC">(</span><span class="NAME">rock.window.style.StyleManager.COMPONENT_COLOR</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 48</span>         </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.graphics.Color</span><span class="PUNC">(</span><span class="NUMB">20</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">30</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">128</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> 
+<span class='line'> 50</span>     </span><span class="NAME">rockStyle.addColor</span><span class="PUNC">(</span><span class="NAME">rock.window.style.StyleManager.COMPONENT_COLOR_2</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 51</span>         </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.graphics.Color</span><span class="PUNC">(</span><span class="NUMB">123</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">175</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">255</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> 
+<span class='line'> 53</span>     </span><span class="NAME">rockStyle.addColor</span><span class="PUNC">(</span><span class="NAME">rock.window.style.StyleManager.COMPONENT_FONT_COLOR</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 54</span>         </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.graphics.Color</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> 
+<span class='line'> 56</span>     </span><span class="NAME">rockStyle.addFont</span><span class="PUNC">(</span><span class="NAME">rock.window.style.StyleManager.COMPONENT_FONT</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 57</span>         </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.graphics.Font</span><span class="PUNC">(</span><span class="NAME">rock.constants.DEFAULT_FONT_TYPE</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rock.constants.DEFAULT_FONT_SIZE</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span> 
+<span class='line'> 59</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">rockStyle</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 61</span> 
+<span class='line'> 62</span> </span><span class="COMM">/**
+<span class='line'> 63</span>  * Add a new style
+<span class='line'> 64</span>  *
+<span class='line'> 65</span>  * @param {rock.window.style.Style} style
+<span class='line'> 66</span>  *      the style to add
+<span class='line'> 67</span>  */</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="NAME">rock.window.style.StyleManager.prototype.addStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">style</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 69</span>     </span><span class="NAME">this.styles.push</span><span class="PUNC">(</span><span class="NAME">style</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span> 
+<span class='line'> 72</span> </span><span class="COMM">/**
+<span class='line'> 73</span>  * Set the current style. Any call to get font or color will use it
+<span class='line'> 74</span>  *
+<span class='line'> 75</span>  * @param {String} id
+<span class='line'> 76</span>  *      the id of the style to set
+<span class='line'> 77</span>  */</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="NAME">rock.window.style.StyleManager.prototype.setCurrentStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 79</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">style</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">styles</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.styles</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 81</span>     </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">styles.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 82</span>         </span><span class="NAME">style</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">styles</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">style.getId</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 84</span>             </span><span class="NAME">this.currentStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">style</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span>         </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 86</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 88</span> 
+<span class='line'> 89</span> </span><span class="COMM">/**
+<span class='line'> 90</span>  * Get a color form the current style
+<span class='line'> 91</span>  *
+<span class='line'> 92</span>  * @param {String} colorId
+<span class='line'> 93</span>  *      the id of the color
+<span class='line'> 94</span>  * @returns {rock.graphics.Color}
+<span class='line'> 95</span>  */</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="NAME">rock.window.style.StyleManager.prototype.getColor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">colorId</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 97</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">color</span><span class="WHIT">  </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.currentStyle.getColor</span><span class="PUNC">(</span><span class="NAME">colorId</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">rock.util.JsUtils.isNullOrUndefined</span><span class="PUNC">(</span><span class="NAME">color</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 99</span>         </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">color.clone</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>101</span>         </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> 
+<span class='line'>105</span> </span><span class="COMM">/**
+<span class='line'>106</span>  * Get a font form the current style
+<span class='line'>107</span>  *
+<span class='line'>108</span>  * @param {String} fontId
+<span class='line'>109</span>  *      the id of the font
+<span class='line'>110</span>  * @returns {rock.graphics.Font}
+<span class='line'>111</span>  */</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="NAME">rock.window.style.StyleManager.prototype.getFont</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">fontId</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>113</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">font</span><span class="WHIT">  </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.currentStyle.getFont</span><span class="PUNC">(</span><span class="NAME">fontId</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">rock.util.JsUtils.isNullOrUndefined</span><span class="PUNC">(</span><span class="NAME">font</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>115</span>         </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">font.clone</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>117</span>         </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>118</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>

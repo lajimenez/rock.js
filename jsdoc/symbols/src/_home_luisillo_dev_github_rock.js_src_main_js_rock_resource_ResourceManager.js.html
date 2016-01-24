@@ -1,0 +1,244 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="NAME">rock.namespace</span><span class="PUNC">(</span><span class="STRN">'rock.resource'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="COMM">/**
+<span class='line'>  4</span>  * Class for manage resources
+<span class='line'>  5</span>  *
+<span class='line'>  6</span>  * @constructor
+<span class='line'>  7</span>  * @author Luis Alberto Jiménez
+<span class='line'>  8</span>  */</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="NAME">rock.resource.ResourceManager</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 10</span>     </span><span class="COMM">// Use this locale when no other locale is required</span><span class="WHIT">
+<span class='line'> 11</span>     </span><span class="NAME">this.DEFAULT_LOCALE</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rock.constants.DEFAULT_ROCK_LOCALE</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 12</span> 
+<span class='line'> 13</span>     </span><span class="NAME">this.locale</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.DEFAULT_LOCALE</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 14</span>     </span><span class="NAME">this.resources</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 15</span>     </span><span class="NAME">this.defaultResources</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.createResourceObject</span><span class="PUNC">(</span><span class="NAME">this.DEFAULT_LOCALE</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 17</span> 
+<span class='line'> 18</span> </span><span class="NAME">rock.resource.ResourceManager.prototype.createResourceObject</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">locale</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 19</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rock.util.JsUtils.isNullOrUndefined</span><span class="PUNC">(</span><span class="NAME">this.resources</span><span class="PUNC">[</span><span class="NAME">locale</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 20</span>         </span><span class="NAME">this.resources</span><span class="PUNC">[</span><span class="NAME">locale</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.resource.Resources</span><span class="PUNC">(</span><span class="NAME">locale</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 21</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 22</span> 
+<span class='line'> 23</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.resources</span><span class="PUNC">[</span><span class="NAME">locale</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span> 
+<span class='line'> 26</span> </span><span class="NAME">rock.resource.ResourceManager.prototype.resolveLocale</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">locale</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 27</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">resolvedLocale</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span>     </span><span class="COMM">// If no locale requested, we use default</span><span class="WHIT">
+<span class='line'> 29</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rock.util.JsUtils.isNullOrUndefined</span><span class="PUNC">(</span><span class="NAME">locale</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 30</span>         </span><span class="NAME">resolvedLocale</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.DEFAULT_LOCALE</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 31</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 32</span> 
+<span class='line'> 33</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">resolvedLocale</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 35</span> 
+<span class='line'> 36</span> </span><span class="COMM">/**
+<span class='line'> 37</span>  * Get resources related to a locale
+<span class='line'> 38</span>  *
+<span class='line'> 39</span>  * @param locale
+<span class='line'> 40</span>  *        the locale
+<span class='line'> 41</span>  *
+<span class='line'> 42</span>  * @returns {rock.resource.Resources}
+<span class='line'> 43</span>  */</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="NAME">rock.resource.ResourceManager.prototype.getResources</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">locale</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 45</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">resolvedLocale</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.resolveLocale</span><span class="PUNC">(</span><span class="NAME">locale</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span> 
+<span class='line'> 47</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">resources</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.resources</span><span class="PUNC">[</span><span class="NAME">resolvedLocale</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rock.util.JsUtils.isNullOrUndefined</span><span class="PUNC">(</span><span class="NAME">resources</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 49</span>         </span><span class="NAME">resources</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.createResourceObject</span><span class="PUNC">(</span><span class="NAME">resolvedLocale</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 51</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">resources</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> 
+<span class='line'> 54</span> </span><span class="COMM">/**
+<span class='line'> 55</span>  * Add a resource
+<span class='line'> 56</span>  *
+<span class='line'> 57</span>  * @param type
+<span class='line'> 58</span>  *      the type of the resource
+<span class='line'> 59</span>  * @param id
+<span class='line'> 60</span>  *      the id of the resource
+<span class='line'> 61</span>  * @param {object} resource
+<span class='line'> 62</span>  *      the resource
+<span class='line'> 63</span>  * @param {string} [locale]
+<span class='line'> 64</span>  *      the locale
+<span class='line'> 65</span>  */</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="NAME">rock.resource.ResourceManager.prototype.addResource</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">resource</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 67</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">resources</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getResources</span><span class="PUNC">(</span><span class="NAME">locale</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span>     </span><span class="NAME">resources.addResource</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">resource</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> 
+<span class='line'> 71</span> </span><span class="COMM">/**
+<span class='line'> 72</span>  * Add a string
+<span class='line'> 73</span>  *
+<span class='line'> 74</span>  * @param id
+<span class='line'> 75</span>  *      the id of the string
+<span class='line'> 76</span>  * @param {String} value
+<span class='line'> 77</span>  *      the value
+<span class='line'> 78</span>  * @param {string} [locale]
+<span class='line'> 79</span>  *      the locale
+<span class='line'> 80</span>  */</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="NAME">rock.resource.ResourceManager.prototype.addString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 82</span>     </span><span class="NAME">this.addResource</span><span class="PUNC">(</span><span class="NAME">rock.constants.RESOURCE_TYPE_STRING</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 84</span> 
+<span class='line'> 85</span> </span><span class="COMM">/**
+<span class='line'> 86</span>  * Load all strings for a locale
+<span class='line'> 87</span>  *
+<span class='line'> 88</span>  * @param {Object} json
+<span class='line'> 89</span>  *      JSON containing messages for locale
+<span class='line'> 90</span>  */</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="NAME">rock.resource.ResourceManager.prototype.loadStrings</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">json</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 92</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">json.locale</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">messages</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">json.messages</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 94</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">property</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 95</span> 
+<span class='line'> 96</span>     </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">property</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">messages</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 97</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">messages.hasOwnProperty</span><span class="PUNC">(</span><span class="NAME">property</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 98</span>             </span><span class="NAME">this.addString</span><span class="PUNC">(</span><span class="NAME">property</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">messages</span><span class="PUNC">[</span><span class="NAME">property</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 99</span>         </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>100</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span> 
+<span class='line'>103</span> </span><span class="COMM">/**
+<span class='line'>104</span>  * Add an image
+<span class='line'>105</span>  *
+<span class='line'>106</span>  * @param {string} id
+<span class='line'>107</span>  *      the id of the image
+<span class='line'>108</span>  * @param {rock.graphics.Image} image
+<span class='line'>109</span>  *      the image
+<span class='line'>110</span>  * @param {string} [locale]
+<span class='line'>111</span>  *      the locale
+<span class='line'>112</span>  */</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="NAME">rock.resource.ResourceManager.prototype.addImage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">image</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>114</span>     </span><span class="NAME">this.addResource</span><span class="PUNC">(</span><span class="NAME">rock.constants.RESOURCE_TYPE_IMAGE</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">image</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> 
+<span class='line'>117</span> </span><span class="COMM">/**
+<span class='line'>118</span>  * Add a audio
+<span class='line'>119</span>  *
+<span class='line'>120</span>  * @param {string} id
+<span class='line'>121</span>  *      the id of the sound
+<span class='line'>122</span>  * @param {rock.audio.Audio} audio
+<span class='line'>123</span>  *      the audio
+<span class='line'>124</span>  * @param {string} [locale]
+<span class='line'>125</span>  *      the locale
+<span class='line'>126</span>  */</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="NAME">rock.resource.ResourceManager.prototype.addAudio</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">audio</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>128</span>     </span><span class="NAME">this.addResource</span><span class="PUNC">(</span><span class="NAME">rock.constants.RESOURCE_TYPE_AUDIO</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">audio</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> 
+<span class='line'>131</span> </span><span class="COMM">/**
+<span class='line'>132</span>  * Get a resource
+<span class='line'>133</span>  *
+<span class='line'>134</span>  * @param type
+<span class='line'>135</span>  *      the type of the resource
+<span class='line'>136</span>  * @param id
+<span class='line'>137</span>  *      the id of the resource
+<span class='line'>138</span>  * @param {String} [locale]
+<span class='line'>139</span>  *      the locale (if undefined, current locale will be used)
+<span class='line'>140</span>  *
+<span class='line'>141</span>  * @returns {object} the resource
+<span class='line'>142</span>  */</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="NAME">rock.resource.ResourceManager.prototype.getResource</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>144</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">localeToUse</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rock.util.JsUtils.isNullOrUndefined</span><span class="PUNC">(</span><span class="NAME">localeToUse</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>146</span>         </span><span class="NAME">localeToUse</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.locale</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>147</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>148</span> 
+<span class='line'>149</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">resources</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getResources</span><span class="PUNC">(</span><span class="NAME">localeToUse</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>150</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">resource</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">resources.getResource</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>151</span> 
+<span class='line'>152</span>     </span><span class="COMM">// If not found, try to find it in default</span><span class="WHIT">
+<span class='line'>153</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rock.util.JsUtils.isNullOrUndefined</span><span class="PUNC">(</span><span class="NAME">resource</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>154</span>         </span><span class="NAME">resource</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.defaultResources.getResource</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>156</span> 
+<span class='line'>157</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">resource</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>159</span> 
+<span class='line'>160</span> </span><span class="COMM">/**
+<span class='line'>161</span>  * Returns an String by id
+<span class='line'>162</span>  *
+<span class='line'>163</span>  * @param {String} id
+<span class='line'>164</span>  *      the id of the string
+<span class='line'>165</span>  * @param {Array} [expressions]
+<span class='line'>166</span>  *      expressions to be replaced
+<span class='line'>167</span>  * @param {String} [locale]
+<span class='line'>168</span>  *      the locale (if undefined, current locale will be used)
+<span class='line'>169</span>  *
+<span class='line'>170</span>  * @returns {String}
+<span class='line'>171</span>  */</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="NAME">rock.resource.ResourceManager.prototype.getString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">expressions</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>173</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">message</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getResource</span><span class="PUNC">(</span><span class="NAME">rock.constants.RESOURCE_TYPE_STRING</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>174</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">exps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">expressions</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>175</span> 
+<span class='line'>176</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rock.util.JsUtils.isNullOrUndefined</span><span class="PUNC">(</span><span class="NAME">message</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>177</span>         </span><span class="NAME">message</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>178</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>179</span> 
+<span class='line'>180</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rock.util.JsUtils.isNullOrUndefined</span><span class="PUNC">(</span><span class="NAME">exps</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>181</span>         </span><span class="NAME">exps</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>182</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>183</span> 
+<span class='line'>184</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">exp</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>185</span>     </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">exps.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>186</span>         </span><span class="NAME">exp</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'{'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'}'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>187</span>         </span><span class="NAME">message</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">message.replace</span><span class="PUNC">(</span><span class="NAME">exp</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">exps</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>188</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>189</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">message</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>191</span> 
+<span class='line'>192</span> </span><span class="COMM">/**
+<span class='line'>193</span>  * Returns an image by id
+<span class='line'>194</span>  *
+<span class='line'>195</span>  * @param id
+<span class='line'>196</span>  *      the id of the image
+<span class='line'>197</span>  * @param {String} [locale]
+<span class='line'>198</span>  *      the locale (if undefined, current locale will be used)
+<span class='line'>199</span>  *
+<span class='line'>200</span>  * @returns {rock.graphics.Image}
+<span class='line'>201</span>  */</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="NAME">rock.resource.ResourceManager.prototype.getImage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>203</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.getResource</span><span class="PUNC">(</span><span class="NAME">rock.constants.RESOURCE_TYPE_IMAGE</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>205</span> 
+<span class='line'>206</span> </span><span class="COMM">/**
+<span class='line'>207</span>  * Returns an audio by id
+<span class='line'>208</span>  *
+<span class='line'>209</span>  * @param id
+<span class='line'>210</span>  *      the id of the audio
+<span class='line'>211</span>  * @param {String} [locale]
+<span class='line'>212</span>  *      the locale (if undefined, current locale will be used)
+<span class='line'>213</span>  *
+<span class='line'>214</span>  * @returns {rock.audio.Audio}
+<span class='line'>215</span>  */</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="NAME">rock.resource.ResourceManager.prototype.getAudio</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>217</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.getResource</span><span class="PUNC">(</span><span class="NAME">rock.constants.RESOURCE_TYPE_AUDIO</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>219</span> 
+<span class='line'>220</span> </span><span class="COMM">/**
+<span class='line'>221</span>  * Get the value
+<span class='line'>222</span>  */</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="NAME">rock.resource.ResourceManager.prototype.getLocale</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>224</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.locale</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>226</span> 
+<span class='line'>227</span> </span><span class="COMM">/**
+<span class='line'>228</span>  * Set the value
+<span class='line'>229</span>  * @param locale the value
+<span class='line'>230</span>  */</span><span class="WHIT">
+<span class='line'>231</span> </span><span class="NAME">rock.resource.ResourceManager.prototype.setLocale</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">locale</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>232</span>     </span><span class="NAME">this.locale</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">locale</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>234</span> 
+<span class='line'>235</span> </span><span class="COMM">// Rock framework has its own resource manager</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="NAME">rock.resource.rockResourceManager</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">rock.resource.ResourceManager</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="NAME">rock.resource.rockResourceManager.loadStrings</span><span class="PUNC">(</span><span class="NAME">rock.i18n.rockDefaultLocaleInfo</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

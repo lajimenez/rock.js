@@ -1,0 +1,1659 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		
+		<title>JsDoc Reference - rock.geometry.Matrix4</title>
+
+		<style type="text/css">
+			/* default.css */
+body
+{
+	font: 12px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
+	width: 800px;
+}
+
+.header
+{
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1
+{
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px solid #7F8FB1;
+	height: 1px;
+}
+
+pre.code
+{
+	display: block;
+	padding: 8px;
+	border: 1px dashed #ccc;
+}
+
+#index
+{
+	margin-top: 24px;
+	float: left;
+	width: 160px;
+	position: absolute;
+	left: 8px;
+	background-color: #F3F3F3;
+	padding: 8px;
+}
+
+#content
+{
+	margin-left: 190px;
+	width: 600px;
+}
+
+.classList
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0 0 0 8px;
+	font-family: arial, sans-serif;
+	font-size: 1em;
+	overflow: auto;
+}
+
+.classList li
+{
+	padding: 0;
+	margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+	font-size:170%;
+	line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+	background-color: #7F8FB1;
+	color: #fff;
+	font-size:130%;
+	text-align: left;
+	padding: 2px 6px 2px 6px;
+	border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #7F8FB1 solid;
+	border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+	border-left: 1px #7F8FB1 solid;
+	width: 140px;
+	text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+	line-height: 15px;
+	color: #002EBE;
+	font-family: "Courier New",Courier,monospace;
+	font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+	text-align: left;
+	font-size: 13px;
+	line-height: 15px;
+}
+
+.summaryTable td.nameDescription, .description
+{
+	font: 13px Palatino,Garamond,serif;
+	line-height: 15px;
+	padding: 4px;
+	padding-left: 4px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px; 
+	line-height: 15px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+	color: #777;
+	font-style: italic;
+}
+
+.fineprint
+{
+	text-align: right;
+	font-size: 10px;
+}
+		</style>
+	</head>
+
+	<body>
+<!-- ============================== header ================================= -->	
+		<!-- begin static/header.html -->
+		<div id="header">
+</div>
+		<!-- end static/header.html -->
+
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center"><a href="../index.html">Class Index</a>
+| <a href="../files.html">File Index</a></div>
+<hr />
+<h2>Classes</h2>
+<ul class="classList">
+	
+	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+	
+	<li><a href="../symbols/rock.html">rock</a></li>
+	
+	<li><a href="../symbols/rock.app.Application.html">rock.app.Application</a></li>
+	
+	<li><a href="../symbols/rock.app.InitApplicationParams.html">rock.app.InitApplicationParams</a></li>
+	
+	<li><a href="../symbols/rock.app.JSDocExample.html">rock.app.JSDocExample</a></li>
+	
+	<li><a href="../symbols/rock.audio.Audio.html">rock.audio.Audio</a></li>
+	
+	<li><a href="../symbols/rock.console.html">rock.console</a></li>
+	
+	<li><a href="../symbols/rock.constants.html">rock.constants</a></li>
+	
+	<li><a href="../symbols/rock.error.RockError.html">rock.error.RockError</a></li>
+	
+	<li><a href="../symbols/rock.event.Event.html">rock.event.Event</a></li>
+	
+	<li><a href="../symbols/rock.event.EventDispatcher.html">rock.event.EventDispatcher</a></li>
+	
+	<li><a href="../symbols/rock.event.KeyEvent.html">rock.event.KeyEvent</a></li>
+	
+	<li><a href="../symbols/rock.event.MouseEvent.html">rock.event.MouseEvent</a></li>
+	
+	<li><a href="../symbols/rock.event.MouseWheelEvent.html">rock.event.MouseWheelEvent</a></li>
+	
+	<li><a href="../symbols/rock.geometry.BBOX.html">rock.geometry.BBOX</a></li>
+	
+	<li><a href="../symbols/rock.geometry.Matrix3.html">rock.geometry.Matrix3</a></li>
+	
+	<li><a href="../symbols/rock.geometry.Matrix4.html">rock.geometry.Matrix4</a></li>
+	
+	<li><a href="../symbols/rock.geometry.Point2.html">rock.geometry.Point2</a></li>
+	
+	<li><a href="../symbols/rock.geometry.Point3.html">rock.geometry.Point3</a></li>
+	
+	<li><a href="../symbols/rock.geometry.Rectangle.html">rock.geometry.Rectangle</a></li>
+	
+	<li><a href="../symbols/rock.geometry.Vector3.html">rock.geometry.Vector3</a></li>
+	
+	<li><a href="../symbols/rock.geometry.Vertex3.html">rock.geometry.Vertex3</a></li>
+	
+	<li><a href="../symbols/rock.graphics.Color.html">rock.graphics.Color</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.canvas2d.Canvas2DContext.html">rock.graphics.engine.canvas2d.Canvas2DContext</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.canvas2d.Canvas2DGraphicsEngine.html">rock.graphics.engine.canvas2d.Canvas2DGraphicsEngine</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.Context.html">rock.graphics.engine.Context</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.ContextGraphicsEngine.html">rock.graphics.engine.ContextGraphicsEngine</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.IDrawable.html">rock.graphics.engine.IDrawable</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.IGraphicsEngine.html">rock.graphics.engine.IGraphicsEngine</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.renderer.ImageRenderable.html">rock.graphics.engine.renderer.ImageRenderable</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.renderer.IRenderer.html">rock.graphics.engine.renderer.IRenderer</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.renderer.PolygonRenderable.html">rock.graphics.engine.renderer.PolygonRenderable</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.renderer.Renderable.html">rock.graphics.engine.renderer.Renderable</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.renderer.ScreenElementRenderable.html">rock.graphics.engine.renderer.ScreenElementRenderable</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.renderer.webgl.GenericRenderable.html">rock.graphics.engine.renderer.webgl.GenericRenderable</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.renderer.webgl.GenericRenderer.html">rock.graphics.engine.renderer.webgl.GenericRenderer</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.renderer.webgl.ImageRenderer.html">rock.graphics.engine.renderer.webgl.ImageRenderer</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.renderer.webgl.PolygonRenderer.html">rock.graphics.engine.renderer.webgl.PolygonRenderer</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.renderer.webgl.program.CacheProgram.html">rock.graphics.engine.renderer.webgl.program.CacheProgram</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.renderer.webgl.program.Program.html">rock.graphics.engine.renderer.webgl.program.Program</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.renderer.webgl.program.Shader.html">rock.graphics.engine.renderer.webgl.program.Shader</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.renderer.webgl.Renderer.html">rock.graphics.engine.renderer.webgl.Renderer</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.webgl.WebGLContext.html">rock.graphics.engine.webgl.WebGLContext</a></li>
+	
+	<li><a href="../symbols/rock.graphics.engine.webgl.WebGLGraphicsEngine.html">rock.graphics.engine.webgl.WebGLGraphicsEngine</a></li>
+	
+	<li><a href="../symbols/rock.graphics.Font.html">rock.graphics.Font</a></li>
+	
+	<li><a href="../symbols/rock.graphics.Image.html">rock.graphics.Image</a></li>
+	
+	<li><a href="../symbols/rock.js.Array.html">rock.js.Array</a></li>
+	
+	<li><a href="../symbols/rock.network.ajax.AjaxRequest.html">rock.network.ajax.AjaxRequest</a></li>
+	
+	<li><a href="../symbols/rock.network.ajax.event.AjaxEvent.html">rock.network.ajax.event.AjaxEvent</a></li>
+	
+	<li><a href="../symbols/rock.network.HTTPRequestParams.html">rock.network.HTTPRequestParams</a></li>
+	
+	<li><a href="../symbols/rock.resource.event.ResourceLoadedEvent.html">rock.resource.event.ResourceLoadedEvent</a></li>
+	
+	<li><a href="../symbols/rock.resource.event.ResourceLoaderComplete.html">rock.resource.event.ResourceLoaderComplete</a></li>
+	
+	<li><a href="../symbols/rock.resource.event.ResourceWindowCompleteEvent.html">rock.resource.event.ResourceWindowCompleteEvent</a></li>
+	
+	<li><a href="../symbols/rock.resource.loader.AbstractResourceLoader.html">rock.resource.loader.AbstractResourceLoader</a></li>
+	
+	<li><a href="../symbols/rock.resource.loader.AudioResourceLoader.html">rock.resource.loader.AudioResourceLoader</a></li>
+	
+	<li><a href="../symbols/rock.resource.loader.ImageResourceLoader.html">rock.resource.loader.ImageResourceLoader</a></li>
+	
+	<li><a href="../symbols/rock.resource.loader.JSONResourceLoader.html">rock.resource.loader.JSONResourceLoader</a></li>
+	
+	<li><a href="../symbols/rock.resource.loader.ResourceLoaderManager.html">rock.resource.loader.ResourceLoaderManager</a></li>
+	
+	<li><a href="../symbols/rock.resource.Resource.html">rock.resource.Resource</a></li>
+	
+	<li><a href="../symbols/rock.resource.ResourceManager.html">rock.resource.ResourceManager</a></li>
+	
+	<li><a href="../symbols/rock.resource.Resources.html">rock.resource.Resources</a></li>
+	
+	<li><a href="../symbols/rock.test.TestRunner.html">rock.test.TestRunner</a></li>
+	
+	<li><a href="../symbols/rock.test.TestSuite.html">rock.test.TestSuite</a></li>
+	
+	<li><a href="../symbols/rock.test.TestSuiteResult.html">rock.test.TestSuiteResult</a></li>
+	
+	<li><a href="../symbols/rock.timer.html">rock.timer</a></li>
+	
+	<li><a href="../symbols/rock.util.DOMUtils.html">rock.util.DOMUtils</a></li>
+	
+	<li><a href="../symbols/rock.util.GeometryUtils.html">rock.util.GeometryUtils</a></li>
+	
+	<li><a href="../symbols/rock.util.JsUtils.html">rock.util.JsUtils</a></li>
+	
+	<li><a href="../symbols/rock.util.MouseUtils.html">rock.util.MouseUtils</a></li>
+	
+	<li><a href="../symbols/rock.util.TextUtils.html">rock.util.TextUtils</a></li>
+	
+	<li><a href="../symbols/rock.util.WebGlUtils.html">rock.util.WebGlUtils</a></li>
+	
+	<li><a href="../symbols/rock.window.component.Button.html">rock.window.component.Button</a></li>
+	
+	<li><a href="../symbols/rock.window.component.Component.html">rock.window.component.Component</a></li>
+	
+	<li><a href="../symbols/rock.window.component.html.HTMLButton.html">rock.window.component.html.HTMLButton</a></li>
+	
+	<li><a href="../symbols/rock.window.component.html.HTMLComponent.html">rock.window.component.html.HTMLComponent</a></li>
+	
+	<li><a href="../symbols/rock.window.component.html.HTMLLabel.html">rock.window.component.html.HTMLLabel</a></li>
+	
+	<li><a href="../symbols/rock.window.component.html.HTMLTextComponent.html">rock.window.component.html.HTMLTextComponent</a></li>
+	
+	<li><a href="../symbols/rock.window.component.Image.html">rock.window.component.Image</a></li>
+	
+	<li><a href="../symbols/rock.window.component.Label.html">rock.window.component.Label</a></li>
+	
+	<li><a href="../symbols/rock.window.component.ProgressBarComponent.html">rock.window.component.ProgressBarComponent</a></li>
+	
+	<li><a href="../symbols/rock.window.component.TextComponent.html">rock.window.component.TextComponent</a></li>
+	
+	<li><a href="../symbols/rock.window.ResourceLoaderWindow.html">rock.window.ResourceLoaderWindow</a></li>
+	
+	<li><a href="../symbols/rock.window.style.Style.html">rock.window.style.Style</a></li>
+	
+	<li><a href="../symbols/rock.window.style.StyleManager.html">rock.window.style.StyleManager</a></li>
+	
+	<li><a href="../symbols/rock.window.Window.html">rock.window.Window</a></li>
+	
+	<li><a href="../symbols/rock.window.WindowSystem.html">rock.window.WindowSystem</a></li>
+	
+</ul>
+<hr />
+			<!-- end publish.classesIndex -->
+		</div>
+		
+		<div id="content">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class rock.geometry.Matrix4
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+			
+				
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/_home_luisillo_dev_github_rock.js_src_main_js_rock_geometry_Matrix4.js.html">Matrix4.js</a>.
+				
+			</p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class rock.geometry.Matrix4.">
+				<caption>Class Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/rock.geometry.Matrix4.html#constructor">rock.geometry.Matrix4</a></b>()
+							</div>
+							<div class="description">Represents a 4x4 matrix.</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class rock.geometry.Matrix4.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#clone">clone</a></b>()
+								</div>
+								<div class="description">Return a clone of the current matrix</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#getAdjoint">getAdjoint</a></b>()
+								</div>
+								<div class="description">Calculate the adjoint of the current matrix
+http://en.wikipedia.org/wiki/Adjugate_matrix</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#getAsMatrix3">getAsMatrix3</a></b>()
+								</div>
+								<div class="description">Return this matrix as a matrix 3 x 3</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#getAuxiliaryMat3">getAuxiliaryMat3</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#getAuxiliaryMat4">getAuxiliaryMat4</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#getAuxiliaryMultiply">getAuxiliaryMultiply</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#getAuxiliaryPoint3">getAuxiliaryPoint3</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#getCofactorMatrix">getCofactorMatrix</a></b>()
+								</div>
+								<div class="description">Calculate the cofactor matrix</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#getDeterminant">getDeterminant</a></b>()
+								</div>
+								<div class="description">Calculate the determinant</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#getMatrixAsArray">getMatrixAsArray</a></b>()
+								</div>
+								<div class="description">Returns the matrix as an array (column major)</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#getMinor">getMinor</a></b>(i, j)
+								</div>
+								<div class="description">Get minor</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#getSign">getSign</a></b>(i, j)
+								</div>
+								<div class="description">Return the sign.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#getValue">getValue</a></b>(i, j)
+								</div>
+								<div class="description">Return a value</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#identity">identity</a></b>()
+								</div>
+								<div class="description">Do this matrix as identity matrix</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#initFromMatrix">initFromMatrix</a></b>(mat4)
+								</div>
+								<div class="description">Initialize matrix from another matrix</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#invert">invert</a></b>()
+								</div>
+								<div class="description">Set the current matrix as the invert of itself</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#multiply">multiply</a></b>(mat)
+								</div>
+								<div class="description">Multiply the matrix pass as parameter</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#multiplyByPoint3">multiplyByPoint3</a></b>(point3)
+								</div>
+								<div class="description">This function multiply a point with a matrix
+
+This function is a tricky as this not a valid multiplication.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#removeTranslation">removeTranslation</a></b>()
+								</div>
+								<div class="description">Remove the translation of the current matrix</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#rotateX">rotateX</a></b>(angle)
+								</div>
+								<div class="description">Apply rotation in the X axis to the current matrix</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#rotateY">rotateY</a></b>(angle)
+								</div>
+								<div class="description">Apply rotation in the Y axis to the current matrix</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#rotateZ">rotateZ</a></b>(angle)
+								</div>
+								<div class="description">Apply rotation in the Z axis to the current matrix</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#scale">scale</a></b>(scaleX, scaleY, scaleZ)
+								</div>
+								<div class="description">Apply scale to the current matrix</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#setValue">setValue</a></b>(i, j, value)
+								</div>
+								<div class="description">Set a value</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#translate">translate</a></b>(x, y, z)
+								</div>
+								<div class="description">Apply translation to the current matrix</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/rock.geometry.Matrix4.html#transpose">transpose</a></b>()
+								</div>
+								<div class="description">Set the matrix as the transpose of itself</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Class Detail
+				</div>
+				
+				<div class="fixedFont">
+						<b>rock.geometry.Matrix4</b>()
+				</div>
+				
+				<div class="description">
+					Represents a 4x4 matrix.
+					<br /><i>Author: </i>Luis Alberto Jiménez.
+				</div>
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+
+<!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name="clone"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>clone</b>()
+					
+					</div>
+					<div class="description">
+						Return a clone of the current matrix
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getAdjoint"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getAdjoint</b>()
+					
+					</div>
+					<div class="description">
+						Calculate the adjoint of the current matrix
+http://en.wikipedia.org/wiki/Adjugate_matrix
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>the adjoint matrix {rock.geometry.Matrix4}</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getAsMatrix3"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/rock.geometry.Matrix3.html#constructor">rock.geometry.Matrix3</a>}</span>
+					<b>getAsMatrix3</b>()
+					
+					</div>
+					<div class="description">
+						Return this matrix as a matrix 3 x 3
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/rock.geometry.Matrix3.html#constructor">rock.geometry.Matrix3</a>}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getAuxiliaryMat3"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getAuxiliaryMat3</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getAuxiliaryMat4"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getAuxiliaryMat4</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getAuxiliaryMultiply"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getAuxiliaryMultiply</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getAuxiliaryPoint3"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getAuxiliaryPoint3</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getCofactorMatrix"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getCofactorMatrix</b>()
+					
+					</div>
+					<div class="description">
+						Calculate the cofactor matrix
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>the cofactor matrix {rock.geometry.Matrix4}</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getDeterminant"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getDeterminant</b>()
+					
+					</div>
+					<div class="description">
+						Calculate the determinant
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>the determinant</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getMatrixAsArray"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Array}</span>
+					<b>getMatrixAsArray</b>()
+					
+					</div>
+					<div class="description">
+						Returns the matrix as an array (column major)
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Array}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getMinor"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getMinor</b>(i, j)
+					
+					</div>
+					<div class="description">
+						Get minor
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>i</b>
+									
+								</dt>
+								<dd>the column</dd>
+							
+								<dt>
+									<b>j</b>
+									
+								</dt>
+								<dd>the row</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>the minor</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getSign"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getSign</b>(i, j)
+					
+					</div>
+					<div class="description">
+						Return the sign. Used for calculating cofactor matrix.
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>i</b>
+									
+								</dt>
+								<dd>the column</dd>
+							
+								<dt>
+									<b>j</b>
+									
+								</dt>
+								<dd>the row</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>1 for positive, -1 for negative {Number}</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getValue"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getValue</b>(i, j)
+					
+					</div>
+					<div class="description">
+						Return a value
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>i</b>
+									
+								</dt>
+								<dd>the row</dd>
+							
+								<dt>
+									<b>j</b>
+									
+								</dt>
+								<dd>the column</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>the value</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="identity"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>identity</b>()
+					
+					</div>
+					<div class="description">
+						Do this matrix as identity matrix
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="initFromMatrix"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>initFromMatrix</b>(mat4)
+					
+					</div>
+					<div class="description">
+						Initialize matrix from another matrix
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>mat4</b>
+									
+								</dt>
+								<dd>the matrix used to initialize current matrix</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="invert"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>invert</b>()
+					
+					</div>
+					<div class="description">
+						Set the current matrix as the invert of itself
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="multiply"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>multiply</b>(mat)
+					
+					</div>
+					<div class="description">
+						Multiply the matrix pass as parameter
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/rock.geometry.Matrix4.html#constructor">rock.geometry.Matrix4</a>}</span> <b>mat</b>
+									
+								</dt>
+								<dd>the matrix to multiply</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd>the result matrix of multiplication</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="multiplyByPoint3"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{<a href="../symbols/rock.geometry.Point3.html#constructor">rock.geometry.Point3</a>}</span>
+					<b>multiplyByPoint3</b>(point3)
+					
+					</div>
+					<div class="description">
+						This function multiply a point with a matrix
+
+This function is a tricky as this not a valid multiplication...
+This function will assume that the point is a 4d point with w = 1
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{<a href="../symbols/rock.geometry.Point3.html#constructor">rock.geometry.Point3</a>}</span> <b>point3</b>
+									
+								</dt>
+								<dd>the point</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{<a href="../symbols/rock.geometry.Point3.html#constructor">rock.geometry.Point3</a>}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="removeTranslation"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>removeTranslation</b>()
+					
+					</div>
+					<div class="description">
+						Remove the translation of the current matrix
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="rotateX"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>rotateX</b>(angle)
+					
+					</div>
+					<div class="description">
+						Apply rotation in the X axis to the current matrix
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>angle</b>
+									
+								</dt>
+								<dd>the angle to rotate in degrees</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="rotateY"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>rotateY</b>(angle)
+					
+					</div>
+					<div class="description">
+						Apply rotation in the Y axis to the current matrix
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>angle</b>
+									
+								</dt>
+								<dd>the angle to rotate in degrees</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="rotateZ"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>rotateZ</b>(angle)
+					
+					</div>
+					<div class="description">
+						Apply rotation in the Z axis to the current matrix
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>angle</b>
+									
+								</dt>
+								<dd>the angle to rotate in degrees</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="scale"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>scale</b>(scaleX, scaleY, scaleZ)
+					
+					</div>
+					<div class="description">
+						Apply scale to the current matrix
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>scaleX</b>
+									
+								</dt>
+								<dd>factor scale in the x axis</dd>
+							
+								<dt>
+									<b>scaleY</b>
+									
+								</dt>
+								<dd>factor scale in the y axis</dd>
+							
+								<dt>
+									<b>scaleZ</b>
+									
+								</dt>
+								<dd>factor scale in the z axis</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="setValue"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>setValue</b>(i, j, value)
+					
+					</div>
+					<div class="description">
+						Set a value
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>i</b>
+									
+								</dt>
+								<dd>the row</dd>
+							
+								<dt>
+									<b>j</b>
+									
+								</dt>
+								<dd>the column</dd>
+							
+								<dt>
+									<b>value</b>
+									
+								</dt>
+								<dd>the value to set</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="translate"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>translate</b>(x, y, z)
+					
+					</div>
+					<div class="description">
+						Apply translation to the current matrix
+						
+						
+					</div>
+					
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<b>x</b>
+									
+								</dt>
+								<dd>distance in the x axis</dd>
+							
+								<dt>
+									<b>y</b>
+									
+								</dt>
+								<dd>distance in the y axis</dd>
+							
+								<dt>
+									<b>z</b>
+									
+								</dt>
+								<dd>distance in the z axis</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="transpose"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>transpose</b>()
+					
+					</div>
+					<div class="description">
+						Set the matrix as the transpose of itself
+						
+						
+					</div>
+					
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					
+				
+			
+			
+			<hr />
+		</div>
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://www.jsdoctoolkit.org/" target="_blank">JsDoc Toolkit</a> 2.0.0 on Sun Jan 24 2016 09:06:30 GMT+0100 (CET)
+		</div>
+	</body>
+</html>

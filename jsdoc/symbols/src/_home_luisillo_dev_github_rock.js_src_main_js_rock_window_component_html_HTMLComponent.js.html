@@ -1,0 +1,203 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="NAME">rock.namespace</span><span class="PUNC">(</span><span class="STRN">'rock.window.component.html'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="COMM">/**
+<span class='line'>  4</span>  * Base class for HTML components. This is a wrapper for an HTML Element that will be put over the canvas.
+<span class='line'>  5</span>  *
+<span class='line'>  6</span>  * @param {rock.window.Window} window
+<span class='line'>  7</span>  *          the window where component exists
+<span class='line'>  8</span>  * @param type
+<span class='line'>  9</span>  *          the type of the HTML Element
+<span class='line'> 10</span>  *
+<span class='line'> 11</span>  * @constructor
+<span class='line'> 12</span>  * @abstract
+<span class='line'> 13</span>  * @extends rock.window.component.Component
+<span class='line'> 14</span>  *
+<span class='line'> 15</span>  * @author Luis Alberto Jiménez
+<span class='line'> 16</span>  */</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="NAME">rock.window.component.html.HTMLComponent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">window</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">type</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 18</span>     </span><span class="NAME">rock.super_</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">window</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 19</span> 
+<span class='line'> 20</span>     </span><span class="NAME">this.width</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rock.window.component.Component.AUTO_SIZE</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 21</span>     </span><span class="NAME">this.height</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rock.window.component.Component.AUTO_SIZE</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 22</span> 
+<span class='line'> 23</span>     </span><span class="NAME">this.HTMLElement</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rock.util.DOMUtils.createHTMLElement</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span>     </span><span class="NAME">this.style</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.HTMLElement.style</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span>     </span><span class="NAME">this.style</span><span class="PUNC">[</span><span class="NAME">rock.constants.CSS_DISPLAY</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rock.constants.CSS_DISPLAY_NONE</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 26</span>     </span><span class="NAME">this.style</span><span class="PUNC">[</span><span class="NAME">rock.constants.CSS_POSITION</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rock.constants.CSS_POSITION_ABSOLUTE</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 27</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">canvas</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.application.getCanvas</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span>     </span><span class="NAME">canvas.parentNode.appendChild</span><span class="PUNC">(</span><span class="NAME">this.HTMLElement</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 29</span> 
+<span class='line'> 30</span>     </span><span class="NAME">rock.util.DOMUtils.addEventListener</span><span class="PUNC">(</span><span class="NAME">this.HTMLElement</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rock.constants.HTML_DOM_EVENT_MOUSE_DOWN</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 31</span>         </span><span class="NAME">rock.createEventHandler</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.dispatchOnMouseEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">rock.constants.ROCK_EVENT_MOUSE_DOWN</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 32</span> 
+<span class='line'> 33</span>     </span><span class="NAME">rock.util.DOMUtils.addEventListener</span><span class="PUNC">(</span><span class="NAME">this.HTMLElement</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rock.constants.HTML_DOM_EVENT_MOUSE_UP</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 34</span>         </span><span class="NAME">rock.createEventHandler</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.dispatchOnMouseEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">rock.constants.ROCK_EVENT_MOUSE_UP</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 35</span> 
+<span class='line'> 36</span>     </span><span class="NAME">rock.util.DOMUtils.addEventListener</span><span class="PUNC">(</span><span class="NAME">this.HTMLElement</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rock.constants.HTML_DOM_EVENT_CLICK</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 37</span>         </span><span class="NAME">rock.createEventHandler</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.dispatchOnMouseEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">rock.constants.ROCK_EVENT_CLICK</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> 
+<span class='line'> 39</span>     </span><span class="NAME">rock.util.DOMUtils.addEventListener</span><span class="PUNC">(</span><span class="NAME">this.HTMLElement</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rock.constants.HTML_DOM_EVENT_DBLCLICK</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 40</span>         </span><span class="NAME">rock.createEventHandler</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.dispatchOnMouseEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">rock.constants.ROCK_EVENT_DBLCLICK</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> 
+<span class='line'> 42</span>     </span><span class="NAME">rock.util.DOMUtils.addEventListener</span><span class="PUNC">(</span><span class="NAME">this.HTMLElement</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rock.constants.HTML_DOM_EVENT_MOUSE_MOVE</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 43</span>         </span><span class="NAME">rock.createEventHandler</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.dispatchOnMouseEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">rock.constants.ROCK_EVENT_MOUSE_MOVE</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 44</span> 
+<span class='line'> 45</span>     </span><span class="NAME">rock.util.DOMUtils.addEventListener</span><span class="PUNC">(</span><span class="NAME">this.HTMLElement</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rock.constants.HTML_DOM_EVENT_MOUSE_OVER</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 46</span>         </span><span class="NAME">rock.createEventHandler</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.dispatchOnMouseEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">rock.constants.ROCK_EVENT_MOUSE_OVER</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 47</span> 
+<span class='line'> 48</span>     </span><span class="NAME">rock.util.DOMUtils.addEventListener</span><span class="PUNC">(</span><span class="NAME">this.HTMLElement</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rock.constants.HTML_DOM_EVENT_MOUSE_LEAVE</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 49</span>         </span><span class="NAME">rock.createEventHandler</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.dispatchOnMouseEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">rock.constants.ROCK_EVENT_MOUSE_LEAVE</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> 
+<span class='line'> 52</span> </span><span class="NAME">rock.extends_</span><span class="PUNC">(</span><span class="NAME">rock.window.component.html.HTMLComponent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rock.window.component.Component</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> 
+<span class='line'> 54</span> </span><span class="COMM">/**
+<span class='line'> 55</span>  * This function will dispatch mouse events for HTML components
+<span class='line'> 56</span>  *
+<span class='line'> 57</span>  * @param mouseEvent
+<span class='line'> 58</span>  *      the event thrown by the DOM
+<span class='line'> 59</span>  * @param eventId
+<span class='line'> 60</span>  *      id of the event to be thrown
+<span class='line'> 61</span>  *
+<span class='line'> 62</span>  * @private
+<span class='line'> 63</span>  */</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="NAME">rock.window.component.html.HTMLComponent.prototype.dispatchOnMouseEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">mouseEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">eventId</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 65</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">coords</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rock.util.MouseUtils.resolveEventCoords</span><span class="PUNC">(</span><span class="NAME">mouseEvent</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span>     </span><span class="NAME">this.dispatchEvent</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 67</span>         </span><span class="NAME">rock.window.WindowSystem.createMouseEvent</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 68</span>             </span><span class="NAME">eventId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">coords.x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">coords.y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">mouseEvent</span><span class="WHIT">
+<span class='line'> 69</span>         </span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 70</span>     </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span> 
+<span class='line'> 72</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">eventId</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">rock.constants.ROCK_EVENT_MOUSE_OVER</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 73</span>         </span><span class="NAME">this.mouseOver</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 74</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">eventId</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">rock.constants.ROCK_EVENT_MOUSE_LEAVE</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 75</span>         </span><span class="NAME">this.mouseOver</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 76</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span> 
+<span class='line'> 79</span> </span><span class="COMM">/**
+<span class='line'> 80</span>  * @override
+<span class='line'> 81</span>  * @see rock.window.component.Component#deactivate
+<span class='line'> 82</span>  */</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="NAME">rock.window.component.html.HTMLComponent.prototype.deactivate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 84</span>     </span><span class="NAME">rock.super_method</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rock.window.component.html.HTMLComponent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'deactivate'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span>     </span><span class="NAME">this.display</span><span class="PUNC">(</span><span class="KEYW">false</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span> 
+<span class='line'> 88</span> </span><span class="COMM">/**
+<span class='line'> 89</span>  * @override
+<span class='line'> 90</span>  * @see rock.window.component.Component#handleMouseSystemEvent
+<span class='line'> 91</span>  */</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="NAME">rock.window.component.html.HTMLComponent.prototype.handleMouseSystemEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">eventId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">mouseEvent</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 93</span>     </span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 95</span> 
+<span class='line'> 96</span> </span><span class="COMM">/**
+<span class='line'> 97</span>  * Compute the size of an HTML element
+<span class='line'> 98</span>  *
+<span class='line'> 99</span>  * ATTENTION: If the element is not visible, width and height will be 0...
+<span class='line'>100</span>  */</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="NAME">rock.window.component.html.HTMLComponent.prototype.computeSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>102</span>     </span><span class="NAME">this.computedWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">  </span><span class="NAME">this.HTMLElement.offsetWidth</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span>     </span><span class="NAME">this.computedHeight</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">  </span><span class="NAME">this.HTMLElement.offsetHeight</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>105</span> 
+<span class='line'>106</span> </span><span class="COMM">/**
+<span class='line'>107</span>  * Set the display value of the component
+<span class='line'>108</span>  *
+<span class='line'>109</span>  * @param {Boolean} visible
+<span class='line'>110</span>  */</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="NAME">rock.window.component.html.HTMLComponent.prototype.display</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">visible</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>112</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">visible</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>113</span>         </span><span class="NAME">this.style</span><span class="PUNC">[</span><span class="NAME">rock.constants.CSS_DISPLAY</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rock.constants.CSS_DISPLAY_BLOCK</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span> 
+<span class='line'>115</span>         </span><span class="COMM">// If the app has been scaled, we have to 'scale' the position</span><span class="WHIT">
+<span class='line'>116</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">scaleFactory</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.application.getScaleFactor</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">left</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getX</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">scaleFactory</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>118</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">top</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getY</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">scaleFactory</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>119</span> 
+<span class='line'>120</span>         </span><span class="NAME">this.style</span><span class="PUNC">[</span><span class="NAME">rock.constants.CSS_LEFT</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.round</span><span class="PUNC">(</span><span class="NAME">left</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="STRN">'px'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span>         </span><span class="NAME">this.style</span><span class="PUNC">[</span><span class="NAME">rock.constants.CSS_TOP</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.round</span><span class="PUNC">(</span><span class="NAME">top</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'px'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>122</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>123</span>         </span><span class="NAME">this.style</span><span class="PUNC">[</span><span class="NAME">rock.constants.CSS_DISPLAY</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rock.constants.CSS_DISPLAY_NONE</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>124</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>126</span> 
+<span class='line'>127</span> </span><span class="COMM">/**
+<span class='line'>128</span>  * @override
+<span class='line'>129</span>  * @see rock.graphics.engine.IDrawable#draw
+<span class='line'>130</span>  */</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="NAME">rock.window.component.html.HTMLComponent.prototype.draw</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>132</span>     </span><span class="NAME">this.display</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span>     </span><span class="COMM">// We must assure that the element is visible, if not the computes size will be incorrect</span><span class="WHIT">
+<span class='line'>134</span>     </span><span class="NAME">this.updateComponent</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>136</span> 
+<span class='line'>137</span> </span><span class="COMM">/**
+<span class='line'>138</span>  * Update the size of the HTML element
+<span class='line'>139</span>  *
+<span class='line'>140</span>  * @param {CSSStyleDeclaration} style
+<span class='line'>141</span>  * @param width
+<span class='line'>142</span>  * @param height
+<span class='line'>143</span>  * @param scaleFactor
+<span class='line'>144</span>  * @param {Boolean} [overflow]
+<span class='line'>145</span>  *          if true, there will be set the overflow
+<span class='line'>146</span>  */</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="NAME">rock.window.component.html.HTMLComponent.updateHTMLStyleSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">style</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">height</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">scaleFactor</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">overflow</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>148</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rock.util.JsUtils.isNullOrUndefined</span><span class="PUNC">(</span><span class="NAME">width</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>149</span>         </span><span class="NAME">style</span><span class="PUNC">[</span><span class="NAME">rock.constants.CSS_WIDTH</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>150</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>151</span>         </span><span class="NAME">style</span><span class="PUNC">[</span><span class="NAME">rock.constants.CSS_WIDTH</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.round</span><span class="PUNC">(</span><span class="NAME">width</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">scaleFactor</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'px'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>153</span> 
+<span class='line'>154</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rock.util.JsUtils.isNullOrUndefined</span><span class="PUNC">(</span><span class="NAME">height</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>155</span>         </span><span class="NAME">style</span><span class="PUNC">[</span><span class="NAME">rock.constants.CSS_HEIGHT</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>157</span>         </span><span class="NAME">style</span><span class="PUNC">[</span><span class="NAME">rock.constants.CSS_HEIGHT</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.round</span><span class="PUNC">(</span><span class="NAME">height</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">scaleFactor</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'px'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>158</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>159</span> 
+<span class='line'>160</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">rock.util.JsUtils.isNullOrUndefined</span><span class="PUNC">(</span><span class="NAME">overflow</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>161</span>         </span><span class="NAME">style</span><span class="PUNC">[</span><span class="NAME">rock.constants.CSS_OVERFLOW</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>162</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>163</span>         </span><span class="NAME">style</span><span class="PUNC">[</span><span class="NAME">rock.constants.CSS_OVERFLOW</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rock.constants.CSS_OVERFLOW_HIDDEN</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>164</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>166</span> 
+<span class='line'>167</span> </span><span class="COMM">/**
+<span class='line'>168</span>  * Update the font of the HTML element
+<span class='line'>169</span>  *
+<span class='line'>170</span>  * @param {CSSStyleDeclaration} style
+<span class='line'>171</span>  * @param {rock.graphics.Font} font
+<span class='line'>172</span>  *            the font to use
+<span class='line'>173</span>  * @param {rock.graphics.Color} color
+<span class='line'>174</span>  *            the color to use
+<span class='line'>175</span>  * @param scaleFactor
+<span class='line'>176</span>  */</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="NAME">rock.window.component.html.HTMLComponent.updateHTMLStyleFont</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">style</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">font</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">scaleFactor</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>178</span>     </span><span class="NAME">style</span><span class="PUNC">[</span><span class="NAME">rock.constants.CSS_FONT_FAMILY</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">font.getFamily</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>179</span>     </span><span class="NAME">style</span><span class="PUNC">[</span><span class="NAME">rock.constants.CSS_FONT_SIZE</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.round</span><span class="PUNC">(</span><span class="NAME">font.getSize</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">scaleFactor</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'px'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>180</span>     </span><span class="NAME">style</span><span class="PUNC">[</span><span class="NAME">rock.constants.CSS_COLOR</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">color.getAsHex</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>182</span> 
+<span class='line'>183</span> </span><span class="COMM">/**
+<span class='line'>184</span>  * Update the background color of the HTML element
+<span class='line'>185</span>  *
+<span class='line'>186</span>  * @param {CSSStyleDeclaration} style
+<span class='line'>187</span>  * @param {rock.graphics.Color} backgroundColor
+<span class='line'>188</span>  *            the color to use
+<span class='line'>189</span>  */</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="NAME">rock.window.component.html.HTMLComponent.updateHTMLBackground</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">style</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">backgroundColor</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>191</span>     </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">rock.util.JsUtils.isNullOrUndefined</span><span class="PUNC">(</span><span class="NAME">backgroundColor</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>192</span>         </span><span class="NAME">style</span><span class="PUNC">[</span><span class="NAME">rock.constants.CSS_BACKGROUND_COLOR</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">backgroundColor.getAsHex</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>193</span>     </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>194</span>         </span><span class="NAME">style</span><span class="PUNC">[</span><span class="NAME">rock.constants.CSS_BACKGROUND_COLOR</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>195</span>     </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>

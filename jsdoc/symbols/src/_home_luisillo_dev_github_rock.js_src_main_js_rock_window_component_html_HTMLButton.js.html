@@ -1,0 +1,51 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="NAME">rock.namespace</span><span class="PUNC">(</span><span class="STRN">'rock.window.component.html'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  2</span> 
+<span class='line'>  3</span> </span><span class="COMM">/**
+<span class='line'>  4</span>  * Button class
+<span class='line'>  5</span>  *
+<span class='line'>  6</span>  * @param {rock.window.Window} window
+<span class='line'>  7</span>  *            the window where component exists
+<span class='line'>  8</span>  * @param text
+<span class='line'>  9</span>  *            the text to show in button
+<span class='line'> 10</span>  * @param {Boolean} [localize]
+<span class='line'> 11</span>  *            if true, the text will be localized (so text should be the resource id of the localized string)
+<span class='line'> 12</span>  * @param {rock.graphics.Font} [font]
+<span class='line'> 13</span>  *            the font to use
+<span class='line'> 14</span>  * @param {rock.graphics.Color} [color]
+<span class='line'> 15</span>  *            the color to use
+<span class='line'> 16</span>  *
+<span class='line'> 17</span>  * @constructor
+<span class='line'> 18</span>  * @extends rock.window.component.html.HTMLTextComponent
+<span class='line'> 19</span>  *
+<span class='line'> 20</span>  * @author Luis Alberto Jiménez
+<span class='line'> 21</span>  */</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="NAME">rock.window.component.html.HTMLButton</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">window</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">text</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">localize</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">font</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 23</span>     </span><span class="NAME">rock.super_</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">window</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">text</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">localize</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">font</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rock.constants.INPUT_TAG</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span>     </span><span class="NAME">this.HTMLElement.type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">rock.constants.INPUT_TYPE_BUTTON</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 26</span> 
+<span class='line'> 27</span> </span><span class="NAME">rock.extends_</span><span class="PUNC">(</span><span class="NAME">rock.window.component.html.HTMLButton</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">rock.window.component.html.HTMLTextComponent</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> 
+<span class='line'> 29</span> </span><span class="COMM">/**
+<span class='line'> 30</span>  * @override
+<span class='line'> 31</span>  * @see rock.window.component.Component#updateComponent
+<span class='line'> 32</span>  */</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="NAME">rock.window.component.html.HTMLButton.prototype.updateComponent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 34</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">style</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.style</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 35</span>     </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">scaleFactor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.window.getApplication</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getScaleFactor</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span>     </span><span class="NAME">rock.window.component.html.HTMLComponent.updateHTMLStyleSize</span><span class="PUNC">(</span><span class="NAME">style</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.width</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.height</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">scaleFactor</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span>     </span><span class="NAME">rock.window.component.html.HTMLComponent.updateHTMLStyleFont</span><span class="PUNC">(</span><span class="NAME">style</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.font</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.color</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">scaleFactor</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span>     </span><span class="NAME">rock.window.component.html.HTMLComponent.updateHTMLBackground</span><span class="PUNC">(</span><span class="NAME">style</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.backgroundColor</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span> 
+<span class='line'> 40</span>     </span><span class="NAME">this.localizeText</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span>     </span><span class="NAME">this.HTMLElement.value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.localizedText</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> 
+<span class='line'> 43</span>     </span><span class="NAME">this.computeSize</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>
