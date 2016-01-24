@@ -23,16 +23,20 @@ rock.namespace('com.example');
 com.example.InterfaceA = function () {
 };
 
-com.example.InterfaceA.prototype.interfaceMethod = rock.abstract_;
-
 // Defines 'com.example.InterfaceA' as an interface
 rock.interface_(com.example.InterfaceA);
+
+// It's recommended to assign 'rock.abstract_' to interface function definitions (and class abstract methods)
+com.example.InterfaceA.prototype.interfaceMethod = rock.abstract_;
 
 /* com.example.ClassA */
 com.example.ClassA = function () {
     // rock.js assumes all properties are protected
     this.privatePropertyA = 'propertyA';
 };
+
+// 'com.example.ClassA' implements 'com.example.InterfaceA'.
+rock.implements_(com.example.ClassA, com.example.InterfaceA);
 
 com.example.ClassA.prototype.interfaceMethod = function () {
     rock.console.log('interfaceMethod called in classA');
@@ -42,15 +46,15 @@ com.example.ClassA.prototype.printProperty = function () {
     rock.console.log(this.privatePropertyA);
 };
 
-// 'com.example.ClassA' implements 'com.example.InterfaceA'. 
-rock.implements_(com.example.ClassA, com.example.InterfaceA);
-
 /* com.example.ClassB */
 com.example.ClassB = function () {
     // Call super constructor (you can pass params if needed)
     rock.super_(this);
     this.privatePropertyB = 'propertyB';
 };
+
+// 'com.example.ClassB' extends 'com.example.ClassA'. A class only can extend one (and only one) class.
+rock.extends_(com.example.ClassB, com.example.ClassA);
 
 com.example.ClassB.prototype.printProperty = function () {
     rock.console.log(this.privatePropertyB);
@@ -61,9 +65,6 @@ com.example.ClassB.prototype.interfaceMethod = function () {
     rock.super_method(this, com.example.ClassB, 'interfaceMethod');
     rock.console.log('interfaceMethod called in classB');
 };
-
-// 'com.example.ClassB' extends 'com.example.ClassA'. A class only can extend one class.
-rock.extends_(com.example.ClassB, com.example.ClassA);
 
 (function() {
     var classA = new com.example.ClassA();
