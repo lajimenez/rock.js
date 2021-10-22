@@ -10,7 +10,7 @@ If you are one of them and want to say to me whatever you want, please don't hes
 rock.js is a framework to develop 2D graphical components (like charts). rock.js can also help you to draw 3D scenes and basic 3D games (see [rock.game.js](https://github.com/lajimenez/rock.game.js)).
 rock.js is based on [Canvas 2D](https://www.w3.org/TR/2dcontext/) and [WebGL](https://www.khronos.org/registry/webgl/specs/latest/1.0/).
 
-If you want to have an idea of what you can do click [here](https://lajimenez.github.io/rock.js/demo) and [here](https://lajimenez.github.com/rock.io.js/demo)
+If you want to have an idea of what you can do click [here](https://lajimenez.github.io/rock.js/demo) and [here](https://lajimenez.github.io/rock.game.js/demo)
 
 ## Features
 
