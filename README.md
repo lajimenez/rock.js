@@ -1,3 +1,8 @@
+# Hi developer! 
+
+I started this project some years ago. I did just for fun and I learned a lot. Altough it's not maintained anymore, still today there are some people who clone this project.
+If you are one of them and want to say to me whatever you want, please don't hesitate to send me an email to [lajimenez.rock@gmail.com](mailto:email lajimenez.rock@gmail.com)
+
 # Documentation
 
 ## What is rock.js?
@@ -5,7 +10,7 @@
 rock.js is a framework to develop 2D graphical components (like charts). rock.js can also help you to draw 3D scenes and basic 3D games (see [rock.game.js](https://github.com/lajimenez/rock.game.js)).
 rock.js is based on [Canvas 2D](https://www.w3.org/TR/2dcontext/) and [WebGL](https://www.khronos.org/registry/webgl/specs/latest/1.0/).
 
-If you want to have an idea of what you can do click [here](https://lajimenez.github.com/rock.js/demo) and [here](https://lajimenez.github.com/rock.game.js/demo)
+If you want to have an idea of what you can do click [here](https://lajimenez.github.io/rock.js/demo) and [here](https://lajimenez.github.com/rock.io.js/demo)
 
 ## Features
 
@@ -138,8 +143,8 @@ rock.js offers a simple framework for unit testing.
 
 ## JSDoc and examples
 
-You can find JSDoc for all classes [here](https://lajimenez.github.com/rock.js/jsdoc)
-You can test rock.js features yourself [here](https://lajimenez.github.com/rock.js/demo)
+You can find JSDoc for all classes [here](https://lajimenez.github.io/rock.js/jsdoc)
+You can test rock.js features yourself [here](https://lajimenez.github.io/rock.js/demo)
 
 ## Recommendations
 
