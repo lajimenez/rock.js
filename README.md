@@ -1,7 +1,7 @@
 # Hi developer! 
 
-I started this project some years ago. I did just for fun and I learned a lot. Altough it's not maintained anymore, still today there are some people who clone this project.
-If you are one of them and want to say to me whatever you want, please don't hesitate to send me an email to [lajimenez.rock@gmail.com](mailto:email lajimenez.rock@gmail.com)
+I started this project some years ago. I did just for fun and I learned a lot. Although it's not maintained anymore, still today there are some people who clone this project.
+If you are one of them and want to say to me whatever you want, please don't hesitate to send me an email to [lajimenez.rock@gmail.com](mailto:lajimenez.rock@gmail.com)
 
 # Documentation
 
